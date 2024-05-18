@@ -1,0 +1,3 @@
+[submodule "riscv-benchmarks"]
+	path = riscv-benchmarks
+	url = https://github.com/ucb-bar/riscv-benchmarks.git
