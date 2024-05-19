@@ -18,7 +18,7 @@ SECTIONS
 
   .text.init :
   {
-    crt.o(.text)
+    *(.text.init)
   }
 
   .text :
