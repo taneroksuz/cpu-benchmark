@@ -2,25 +2,20 @@ OUTPUT_ARCH( "riscv" )
 
 MEMORY
 {
-  host (airwx) : ORIGIN = 0x1000000, LENGTH = 0x100
   bram (airwx) : ORIGIN = 0x80000000, LENGTH = 0x100000
+  host (airwx) : ORIGIN = 0x90000000, LENGTH = 0x100
 }
 
 PHDRS
 {
-    host PT_LOAD;
     bram PT_LOAD;
+    host PT_LOAD;
 }
 
 SECTIONS
 {
   __stack_size = DEFINED(__stack_size) ? __stack_size : 0x400;
   __heap_size = DEFINED(__heap_size) ? __heap_size : 0x800;
-
-  .tohost :
-  {
-    *(.tohost)
-  } >host :host
 
   .text.init :
   {
@@ -79,5 +74,10 @@ SECTIONS
       PROVIDE( _heap_end = . );
       PROVIDE( __heap_end = . );
   } >bram :bram
+
+  .tohost :
+  {
+    *(.tohost)
+  } >host :host
 
 }
