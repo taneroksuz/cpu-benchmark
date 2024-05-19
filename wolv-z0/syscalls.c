@@ -122,6 +122,7 @@ void _init(int cid, int nc)
 }
 
 #undef putchar
+/*
 int putchar(int ch)
 {
   static char buf[64] __attribute__((aligned(64)));
@@ -134,6 +135,14 @@ int putchar(int ch)
     syscall(SYS_write, 1, (uintptr_t)buf, buflen);
     buflen = 0;
   }
+
+  return 0;
+}
+*/
+int putchar(int ch)
+{
+  volatile char *uart = (char *)0x1000000;
+  *(uart) = (char) ch;
 
   return 0;
 }
