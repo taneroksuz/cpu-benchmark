@@ -27,5 +27,5 @@ git clone https://github.com/riscv/riscv-gnu-toolchain $BASEDIR/riscv-gnu-toolch
 
 cd $BASEDIR/riscv-gnu-toolchain
 
-./configure --prefix=$PREFIX --with-arch=rv32imcf_zba_zbb_zbc_zbs_zicsr --with-abi=ilp32
+./configure --prefix=$PREFIX --with-arch=rv32imfc_zba_zbb_zbc_zbs_zicsr --with-abi=ilp32f
 make -j$(nproc)
