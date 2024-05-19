@@ -26,6 +26,9 @@ cp -r $BASEDIR/../riscv-tests/benchmarks/Makefile $BASEDIR/benchmarks/
 
 cp -r $BASEDIR/../riscv-tests/env $BASEDIR/
 
-cp -r $BASEDIR/../common/ $BASEDIR/benchmarks/
+cp $BASEDIR/../common/crt.S $BASEDIR/benchmarks/
+cp $BASEDIR/../common/util.h $BASEDIR/benchmarks/
+cp $BASEDIR/../common/test.ld $BASEDIR/benchmarks/
+cp $BASEDIR/../common/syscalls.c $BASEDIR/benchmarks/
 
 make -j$(nproc)

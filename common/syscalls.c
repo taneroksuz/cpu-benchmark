@@ -353,6 +353,13 @@ static void vprintfmt(void (*putch)(int, void**), void **putdat, const char *fmt
   }
 }
 
+int puts(const char* s)
+{
+  printf(s);
+  printf("\n");
+  return 0; // incorrect return value, but who cares, anyway?
+}
+
 int printf(const char* fmt, ...)
 {
   va_list ap;
