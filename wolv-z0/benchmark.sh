@@ -1,26 +1,23 @@
 #!/bin/bash
 set -e
 
-export CPU="wolv-z0"
+export BASEDIR=$(pwd)
+
 export XLEN="32"
-export RISCV="/opt/rv32imc"
-export BASEDIR="/home/taner/Project/wolv-benchmark"
+export RISCV_PREFIX="/opt/rv32imc/bin/riscv32-unknown-elf-"
+export RISCV_GCC_OPTS="-DPREALLOCATE=1 -static -std=gnu99 -O2 -ffast-math -fno-common -fno-builtin-printf -fno-tree-loop-distribute-patterns"
 
-export PATH=$PATH:"/opt/rv32imc/bin"
-
-if [ -d "$BASEDIR/$CPU/wolv-benchmark" ]; then
-  rm -rf $BASEDIR/$CPU/wolv-benchmark
+if [ -d "$BASEDIR/riscv-tests" ]; then
+  rm -rf $BASEDIR/riscv-tests
 fi
 
-mkdir -p $BASEDIR/$CPU/wolv-benchmark
+cp -R $BASEDIR/../riscv-tests $BASEDIR/
 
-cp -R $BASEDIR/riscv-tests/* $BASEDIR/$CPU/wolv-benchmark/
+cp $BASEDIR/Makefile $BASEDIR/riscv-tests/
+cp $BASEDIR/crt.S $BASEDIR/riscv-tests/benchmarks/common/
+cp $BASEDIR/syscalls.c $BASEDIR/riscv-tests/benchmarks/common/
+cp $BASEDIR/test.ld $BASEDIR/riscv-tests/benchmarks/common/
 
-cp $BASEDIR/$CPU/crt.S $BASEDIR/$CPU/wolv-benchmark/benchmarks/common/
-cp $BASEDIR/$CPU/syscalls.c $BASEDIR/$CPU/wolv-benchmark/benchmarks/common/
-cp $BASEDIR/$CPU/test.ld $BASEDIR/$CPU/wolv-benchmark/benchmarks/common/
+cd $BASEDIR/riscv-tests
 
-cd $BASEDIR/$CPU/wolv-benchmark
-
-./configure --prefix=$RISCV/target
 make -j$(nproc)

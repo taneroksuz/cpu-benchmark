@@ -2,6 +2,8 @@
 set -e
 
 PREFIX="/opt/rv32imc"
+BASEDIR=$(pwd)
+
 
 if [ -d "$PREFIX" ]; then
   sudo rm -rf $PREFIX
@@ -17,13 +19,13 @@ sudo apt-get -y install autoconf automake autotools-dev curl \
                         zlib1g-dev libexpat-dev ninja-build git \
                         cmake libglib2.0-dev libslirp-dev
 
-if [ -d "$BASEDIR/$CPU/riscv-gnu-toolchain" ]; then
-  rm -rf $BASEDIR/$CPU/riscv-gnu-toolchain
+if [ -d "$BASEDIR/riscv-gnu-toolchain" ]; then
+  rm -rf $BASEDIR/riscv-gnu-toolchain
 fi
 
-git clone https://github.com/riscv/riscv-gnu-toolchain $BASEDIR/$CPU/
+git clone https://github.com/riscv/riscv-gnu-toolchain $BASEDIR/riscv-gnu-toolchain
 
-cd $BASEDIR/$CPU/riscv-gnu-toolchain
+cd $BASEDIR/riscv-gnu-toolchain
 
-./configure --prefix=$PREFIX --with-arch=rv32imc --with-abi=ilp32
+./configure --prefix=$PREFIX --with-arch=rv32imc_zicsr --with-abi=ilp32
 make -j$(nproc)
