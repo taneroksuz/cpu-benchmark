@@ -1,4 +1,8 @@
 */riscv-gnu-toolchain/
 */benchmarks/
 */coremark/
+*/binutils/
+*/combined/
+*/newlib/
+*/gcc/
 */env/
