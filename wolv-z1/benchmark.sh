@@ -5,7 +5,7 @@ export BASEDIR=$(pwd)
 
 export XLEN="32"
 export RISCV_PREFIX="/opt/rv32imcb/bin/riscv32-unknown-elf-"
-export RISCV_GCC_OPTS="-DPREALLOCATE=1 -static -std=gnu99 -O2 -ffast-math -fno-common -fno-builtin-printf -fno-tree-loop-distribute-patterns"
+export RISCV_GCC_OPTS="-DPREALLOCATE=1 -static -std=gnu99 -O2 -ffast-math -fno-common -fno-builtin-printf -fno-tree-loop-distribute-patterns -Wno-implicit"
 
 if [ -d "$BASEDIR/benchmarks" ]; then
   rm -rf $BASEDIR/benchmarks
