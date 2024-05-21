@@ -3,9 +3,7 @@ set -e
 
 export BASEDIR=$(pwd)
 
-export XLEN="32"
-export RISCV_PREFIX="/opt/rv32imc/bin/riscv32-unknown-elf-"
-export RISCV_GCC_OPTS="-DPREALLOCATE=1 -static -std=gnu99 -O2 -ffast-math -fno-common -fno-builtin-printf -fno-tree-loop-distribute-patterns -Wno-implicit"
+export $(grep -v '^#' $BASEDIR/.env | xargs -d '\n')
 
 if [ -d "$BASEDIR/benchmarks" ]; then
   rm -rf $BASEDIR/benchmarks
@@ -30,5 +28,8 @@ cp $BASEDIR/../common/crt.S $BASEDIR/benchmarks/
 cp $BASEDIR/../common/util.h $BASEDIR/benchmarks/
 cp $BASEDIR/../common/test.ld $BASEDIR/benchmarks/
 cp $BASEDIR/../common/syscalls.c $BASEDIR/benchmarks/
+cp $BASEDIR/../common/benchmarks.mak $BASEDIR/benchmarks/Makefile
 
-make -j$(nproc)
+cd $BASEDIR/benchmarks
+
+make

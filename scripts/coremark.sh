@@ -2,7 +2,8 @@
 set -e
 
 export BASEDIR=$(pwd)
-export RISCV="/opt/rv32imfcb/"
+
+export $(grep -v '^#' $BASEDIR/.env | xargs)
 
 if [ -d "$BASEDIR/coremark" ]; then
   rm -rf $BASEDIR/coremark

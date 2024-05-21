@@ -1,22 +1,20 @@
 #!/bin/bash
 set -e
 
-PREFIX="/opt/rv32imfcb"
 BASEDIR=$(pwd)
 
-ARCH="rv32imfc_zba_zbb_zbc_zbs_zicsr"
-ABI="ilp32f"
+export $(grep -v '^#' $BASEDIR/.env | xargs)
 
 GCC_VERSION="basepoints/gcc-15"
 NEWLIB_VERSION="newlib-4.4.0"
 BINTUILS_VERSION="binutils-2_42"
 
-if [ -d "$PREFIX" ]; then
-  sudo rm -rf $PREFIX
+if [ -d "$RISCV" ]; then
+  sudo rm -rf $RISCV
 fi
 
-sudo mkdir -p $PREFIX
-sudo chown -R $USER:$USER $PREFIX
+sudo mkdir -p $RISCV
+sudo chown -R $USER:$USER $RISCV
 
 sudo apt-get -y install autoconf automake autotools-dev curl \
                         python3 python3-pip libmpc-dev libmpfr-dev \
@@ -53,7 +51,7 @@ cd $BASEDIR/combined/build
 ../configure --target=riscv32-unknown-elf --enable-languages=c \
              --disable-shared --disable-threads --disable-multilib \
              --disable-gdb --disable-libssp --with-newlib \
-             --with-arch=$ARCH --with-abi=$ABI --prefix=$PREFIX
+             --with-arch=$ARCH --with-abi=$ABI --RISCV=$RISCV
 
 make -j$(nproc)
 make install
