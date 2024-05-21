@@ -57,7 +57,7 @@ cd $BASEDIR/combined/build
 ../configure --target=riscv32-unknown-elf --enable-languages=c \
              --disable-shared --disable-threads --disable-multilib \
              --disable-gdb --disable-libssp --with-newlib \
-             --with-arch=$ARCH --with-abi=$ABI --RISCV=$RISCV
+             --with-arch=$ARCH --with-abi=$ABI --prefix=$RISCV
 
 make -j$(nproc)
 make install
