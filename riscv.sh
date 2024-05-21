@@ -1,8 +1,14 @@
 #!/bin/bash
 set -e
 
-BASEDIR=$(pwd)
+if [ -z "$1" ]; then
+  echo "example usage: ./riscv.sh wolv-z0"
+  exit 1
+fi
 
+cd $1
+
+export BASEDIR=$(pwd)
 export $(grep -v '^#' $BASEDIR/.env | xargs)
 
 GCC_VERSION="basepoints/gcc-15"
