@@ -31,6 +31,7 @@ cp -r $BASEDIR/../riscv-tests/benchmarks/Makefile $BASEDIR/benchmarks/
 cp -r $BASEDIR/../riscv-tests/env $BASEDIR/
 
 cp $BASEDIR/../common/crt.S $BASEDIR/benchmarks/common/
+cp $BASEDIR/../common/strcmp.S $BASEDIR/benchmarks/common/
 cp $BASEDIR/../common/util.h $BASEDIR/benchmarks/common/
 cp $BASEDIR/../common/test.ld $BASEDIR/benchmarks/common/
 cp $BASEDIR/../common/syscalls.c $BASEDIR/benchmarks/common/
