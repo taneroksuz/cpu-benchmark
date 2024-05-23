@@ -19,4 +19,4 @@ cp -r $BASEDIR/../coremark $BASEDIR/
 
 cd $BASEDIR/coremark
 
-make PORT_DIR=$BASEDIR/../common compile ITERATIONS=10
+make PORT_DIR=$BASEDIR/../common
