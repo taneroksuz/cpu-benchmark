@@ -43,7 +43,9 @@ Original Author: Shay Gal-on
 	Sample implementation for standard time.h and windows.h definitions included.
 */
 CORETIMETYPE barebones_clock() {
-  return clock();
+  ee_u32 cycles;
+  asm __volatile__ ("csrr %[dst01], mcycle\n" : [dst01]"=r"(cycles) : : );
+  return cycles;
 }
 /* Define : TIMER_RES_DIVIDER
 	Divider to trade off timer resolution and total time that can be measured.
