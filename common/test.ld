@@ -56,8 +56,15 @@ SECTIONS
     *(.bss)
   } >bram :bram
 
-  PROVIDE( _end = . );
-  PROVIDE( _sp = (ORIGIN(bram) + LENGTH(bram)) );
+  .heap (NOLOAD) :
+  {
+     _end = .;
+  } >bram :bram
+
+  .stack (NOLOAD) :
+  {
+     _sp = ORIGIN(bram) + LENGTH(bram);
+  } >bram :bram
 
   .tohost :
   {
