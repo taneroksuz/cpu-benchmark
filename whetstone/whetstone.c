@@ -1250,10 +1250,11 @@ SPDP dtime(void)
 #ifdef RISCV
 #include "encoding.h"
 
-SPDP barebones_clock()
+SPDP dtime(void)
 {
  SPDP q;
  asm __volatile__ ("csrr %[dst01], mcycle\n" : [dst01]"=r"(q) : : );
+ q *= 1.0e-06;
  return q;
 }
 #endif
