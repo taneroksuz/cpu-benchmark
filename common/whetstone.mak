@@ -16,7 +16,7 @@ incs  += -I$(src_dir)/common
 objs  :=
 
 whetstone.riscv: $(wildcard $(src_dir)/whetstone/*) $(wildcard $(src_dir)/common/*)
-	$(RISCV_GCC) $(incs) $(RISCV_GCC_OPTS) -o $@ $(wildcard $(src_dir)/whetstone/*.c) $(wildcard $(src_dir)/whetstone/*.S) $(wildcard $(src_dir)/common/*.c) $(wildcard $(src_dir)/common/*.S) $(RISCV_LINK_OPTS)
+	$(RISCV_GCC) $(incs) $(RISCV_GCC_OPTS) -o $@ $(wildcard $(src_dir)/*.c) $(wildcard $(src_dir)/*.S) $(wildcard $(src_dir)/common/*.c) $(wildcard $(src_dir)/common/*.S) $(RISCV_LINK_OPTS)
 
 #------------------------------------------------------------
 
