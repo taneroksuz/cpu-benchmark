@@ -274,74 +274,40 @@
  *
  **************************************************************************
  */
- 
- #include <math.h>       /* for sin, exp etc.           */
- #include <stdio.h>      /* standard I/O                */ 
- #include <string.h>     /* for strcpy - 3 occurrences  */
- #include <stdlib.h>     /* for exit   - 1 occurrence   */
 
-/***************************************************************/
-/* Timer options. You MUST uncomment one of the options below  */
-/* or compile, for example, with the '-DUNIX' option.          */
-/***************************************************************/
-/* #define Amiga       */
-/* #define UNIX        */
-/* #define UNIX_Old    */
-/* #define VMS         */
-/* #define BORLAND_C   */
-/* #define MSC         */
-/* #define MAC         */
-/* #define IPSC        */
-/* #define FORTRAN_SEC */
-/* #define GTODay      */
-/* #define CTimer      */
-/* #define UXPM        */
-/* #define MAC_TMgr    */
-/* #define PARIX       */
-/* #define POSIX       */
-/* #define WIN32       */
+#include <math.h>       /* for sin, exp etc.           */
+#include <stdio.h>      /* standard I/O                */ 
+#include <string.h>     /* for strcpy - 3 occurrences  */
+#include <stdlib.h>     /* for exit   - 1 occurrence   */
+#include "encoding.h"
 
- 
 /*PRECISION PRECISION PRECISION PRECISION PRECISION PRECISION PRECISION*/
 
- /* #define DP */
- 
- #ifdef DP 
+/* #define DP */
+
+#ifdef DP 
     #define SPDP double
     #define Precision "Double"
- #else
+#else
     #define SPDP float
     #define Precision "Single"
- #endif
+#endif
+
+void whetstones(long xtra, long x100, int calibrate);  
+void pa(SPDP e[4], SPDP t, SPDP t2);
+void po(SPDP e1[4], long j, long k, long l);
+void p3(SPDP *x, SPDP *y, SPDP *z, SPDP t, SPDP t1, SPDP t2);
+void pout(char title[22], float ops, int type, SPDP checknum, SPDP time, int calibrate, int section);
 
 
-/*PRECOMPILE  PRECOMPILE  PRECOMPILE  PRECOMPILE  PRECOMPILE  PRECOMPILE*/
-
- /* #define PRECOMP */
- 
- #ifdef PRECOMP 
-    #define precompiler "INSERT COMPILER NAME HERE"
-    #define preoptions  "INSERT OPTIMISATION OPTIONS HERE"
- #endif
-
-
- void whetstones(long xtra, long x100, int calibrate);  
- void pa(SPDP e[4], SPDP t, SPDP t2);
- void po(SPDP e1[4], long j, long k, long l);
- void p3(SPDP *x, SPDP *y, SPDP *z, SPDP t, SPDP t1, SPDP t2);
- void pout(char title[22], float ops, int type, SPDP checknum,
-                  SPDP time, int calibrate, int section);
-  
-
- static SPDP loop_time[9];
- static SPDP loop_mops[9];
- static SPDP loop_mflops[9];
- static SPDP TimeUsed;
- static SPDP mwips;
- static char headings[9][18];
- static SPDP Check;
- static SPDP results[9];
- 
+static SPDP loop_time[9];
+static SPDP loop_mops[9];
+static SPDP loop_mflops[9];
+static SPDP TimeUsed;
+static SPDP mwips;
+static char headings[9][18];
+static SPDP Check;
+static SPDP results[9];
 
 main()
 {
@@ -352,845 +318,334 @@ main()
     int duration = 100;
     char compiler[80], options[256], general[10][80] = {" "};
     char *endit;
-  
+
     printf("\n");
     printf("##########################################\n"); 
     printf("%s Precision C/C++ Whetstone Benchmark\n\n", Precision);
-  
-  printf("Calibrate\n");
-  do
-   {
-    TimeUsed=0;
-            
-    whetstones(xtra,x100,calibrate);
-            
-    printf("%11.2f Seconds %10.0lf   Passes (x 100)\n",
-                                     TimeUsed,(SPDP)(xtra));
-    calibrate++;
-    count--;
 
-    if (TimeUsed > 2.0)
-      {
-       count = 0;
-      }
-       else
-      {
-       xtra = xtra * 5;
-      }
-   }
-   
-   while (count > 0);
-       
-   if (TimeUsed > 0) xtra = (long)((SPDP)(duration * xtra) / TimeUsed);
-   if (xtra < 1) xtra = 1;
-       
-   calibrate = 0;
-  
-   printf("\nUse %d  passes (x 100)\n", xtra);
+    printf("Calibrate\n");
 
-   printf("\n          %s Precision C/C++ Whetstone Benchmark",Precision);
-   
-   #ifdef PRECOMP
-      printf("\n          Compiler  %s", precompiler);
-      printf("\n          Options   %s\n", preoptions);
-   #else
-      printf("\n");
-   #endif
-   
-   printf("\nLoop content                  Result              MFLOPS "
-                                "     MOPS   Seconds\n\n");
-
-   TimeUsed=0;
-   whetstones(xtra,x100,calibrate);
-
-   printf("\nMWIPS            ");
-   if (TimeUsed>0)
-     {
-      mwips=(float)(xtra) * (float)(x100) / (10 * TimeUsed);
-     }
-      else
-     {
-      mwips = 0;
-     }  
-   
-   printf("%39.3f%19.3f\n\n",mwips,TimeUsed);
-     
-   if (Check == 0) printf("Wrong answer  ");
-              
-
- /************************************************************************/
- /*             Type details of hardware, software etc.                  */
- /************************************************************************/
-
- printf ("Enter the following which will be added with results to file WHETS.RES\n");
- printf ("When submitting a number of results you need only provide details once\n");
- printf ("but a cross reference such as an abbreviated CPU type would be useful.\n");    
- printf ("You can kill (exit or close) the program now and no data will be added.\n\n");
- 
-
- /************************************************************************/
- /*               Add results to output file whets.res                   */
- /************************************************************************/
- printf ("\n"); 
- printf ("##############################################\n");
- printf ("Whetstone %s  Precision Benchmark in C/C++\n\n",Precision);
-
- printf ("Loop content                   Result"
-            "              MFLOPS      MOPS   Seconds\n\n"); 
-                           
- for (section=1; section<9; section++)
+    do
     {
-     printf ("%s  %24.17f   ", headings[section],
-                                              results[section]);
-     if (loop_mops[section] == 99999)
-       {          
-        printf ("  %9.3f           %9.3f\n",
-                 loop_mflops[section], loop_time[section]);
-       }
-       else
-       {       
-        printf ("            %9.3f %9.3f\n",
-             loop_mops[section], loop_time[section], results[section]);
-       }
+        TimeUsed=0;
+
+        whetstones(xtra,x100,calibrate);
+
+        printf("%11.2f Seconds %10.0lf   Passes (x 100)\n", TimeUsed,(SPDP)(xtra));
+
+        calibrate++;
+        count--;
+
+        if (TimeUsed > 2.0)
+        {
+            count = 0;
+        }
+            else
+        {
+            xtra = xtra * 5;
+        }
     }
 
- printf ("\nMWIPS             ");
- printf ("%39.3f%20.3f\n\n",mwips,TimeUsed);
- printf ("Results  to  load  to  spreadsheet             ");
- printf ("     MWIPS   Mflops1   Mflops2   Mflops3   Cosmops"
-                      "   Expmops  Fixpmops    Ifmops    Eqmops\n");
- printf ("Results  to  load  to  spreadsheet             ");   
-                
- printf (" %9.3f %9.3f %9.3f", mwips, loop_mflops[1],
-                                                         loop_mflops[2]);
- printf (" %9.3f %9.3f %9.3f", loop_mflops[6],
-                                             loop_mops[5], loop_mops[8]);
- printf (" %9.3f %9.3f %9.3f\n\n", loop_mops[4],
-                                              loop_mops[3], loop_mops[7]);
-	
- printf ("\n");
- printf ("A new results file will have been created in the same directory as the\n");
- printf (".EXE files if one did not already exist. If you made a mistake above, \n");
- printf ("you can use a text editor to correct it, delete the results or copy \n");
- printf ("them to a different file name. If you intend to run multiple tests you\n");
- printf ("you may wish to rename WHETS.RES with a more informative title.\n\n");
- printf ("Please submit feedback and results files as a posting in Section 12\n");
- printf ("or to Roy_Longbottom@compuserve.com\n\n");
-             
+    while (count > 0);
+
+    if (TimeUsed > 0)
+        xtra = (long)((SPDP)(duration * xtra) / TimeUsed);
+
+    if (xtra < 1)
+        xtra = 1;
+
+    calibrate = 0;
+
+    printf("\nUse %d  passes (x 100)\n", xtra);
+    printf("\n          %s Precision C/C++ Whetstone Benchmark\n",Precision);
+
+    printf("\nLoop content                  Result              MFLOPS      MOPS   Seconds\n\n");
+
+    TimeUsed=0;
+    whetstones(xtra,x100,calibrate);
+
+    printf("\nMWIPS            ");
+    if (TimeUsed>0)
+    {
+        mwips=(float)(xtra) * (float)(x100) / (10 * TimeUsed);
+    }
+    else
+    {
+        mwips = 0;
+    }
+
+    printf("%39.3f%19.3f\n\n",mwips,TimeUsed);
+
+    if (Check == 0)
+        printf("Wrong answer  ");
 }
 
-    void whetstones(long xtra, long x100, int calibrate)
-      {
+void whetstones(long xtra, long x100, int calibrate)
+{
 
-        long n1,n2,n3,n4,n5,n6,n7,n8,i,ix,n1mult;
-        SPDP x,y,z;              
-        long j,k,l;
-        SPDP e1[4],timea,timeb, dtime();
-                        
-        SPDP t =  0.49999975;
-        SPDP t0 = t;        
-        SPDP t1 = 0.50000025;
-        SPDP t2 = 2.0;
-                
-        Check=0.0;
-       
-        n1 = 12*x100;
-        n2 = 14*x100;
-        n3 = 345*x100;
-        n4 = 210*x100;
-        n5 = 32*x100;
-        n6 = 899*x100;
-        n7 = 616*x100;
-        n8 = 93*x100;
-        n1mult = 10;
+    long n1,n2,n3,n4,n5,n6,n7,n8,i,ix,n1mult;
+    SPDP x,y,z;              
+    long j,k,l;
+    SPDP e1[4],timea,timeb, dtime();
 
-        /* Section 1, Array elements */
+    SPDP t =  0.49999975;
+    SPDP t0 = t;        
+    SPDP t1 = 0.50000025;
+    SPDP t2 = 2.0;
 
-        e1[0] = 1.0;
-        e1[1] = -1.0;
-        e1[2] = -1.0;
-        e1[3] = -1.0;
-        timea = dtime();
-         {
-            for (ix=0; ix<xtra; ix++)
-              {
-                for(i=0; i<n1*n1mult; i++)
-                  {
-                      e1[0] = (e1[0] + e1[1] + e1[2] - e1[3]) * t;
-                      e1[1] = (e1[0] + e1[1] - e1[2] + e1[3]) * t;
-                      e1[2] = (e1[0] - e1[1] + e1[2] + e1[3]) * t;
-                      e1[3] = (-e1[0] + e1[1] + e1[2] + e1[3]) * t;
-                  }
-                t = 1.0 - t;
-              }
-            t =  t0;                    
-         }
-        timeb = (dtime()-timea)/(SPDP)(n1mult);
-        pout("N1 floating point\0",(float)(n1*16)*(float)(xtra),
-                             1,e1[3],timeb,calibrate,1);
+    Check=0.0;
 
-        /* Section 2, Array as parameter */
+    n1 = 12*x100;
+    n2 = 14*x100;
+    n3 = 345*x100;
+    n4 = 210*x100;
+    n5 = 32*x100;
+    n6 = 899*x100;
+    n7 = 616*x100;
+    n8 = 93*x100;
+    n1mult = 10;
 
-        timea = dtime();
-         {
-            for (ix=0; ix<xtra; ix++)
-              { 
-                for(i=0; i<n2; i++)
-                  {
-                     pa(e1,t,t2);
-                  }
-                t = 1.0 - t;
-              }
-            t =  t0;
-         }
-        timeb = dtime()-timea;
-        pout("N2 floating point\0",(float)(n2*96)*(float)(xtra),
-                             1,e1[3],timeb,calibrate,2);
-
-        /* Section 3, Conditional jumps */
-        j = 1;
-        timea = dtime();
-         {
-            for (ix=0; ix<xtra; ix++)
-              {
-                for(i=0; i<n3; i++)
-                  {
-                     if(j==1)       j = 2;
-                     else           j = 3;
-                     if(j>2)        j = 0;
-                     else           j = 1;
-                     if(j<1)        j = 1;
-                     else           j = 0;
-                  }
-              }
-         }
-        timeb = dtime()-timea;
-        pout("N3 if then else  \0",(float)(n3*3)*(float)(xtra),
-                        2,(SPDP)(j),timeb,calibrate,3);
-
-        /* Section 4, Integer arithmetic */
-        j = 1;
-        k = 2;
-        l = 3;
-        timea = dtime();
-         {
-            for (ix=0; ix<xtra; ix++)
-              {
-                for(i=0; i<n4; i++)
-                  {
-                     j = j *(k-j)*(l-k);
-                     k = l * k - (l-j) * k;
-                     l = (l-k) * (k+j);
-                     e1[l-2] = j + k + l;
-                     e1[k-2] = j * k * l;
-                  }
-              }
-         }
-        timeb = dtime()-timea;
-        x = e1[0]+e1[1];
-        pout("N4 fixed point   \0",(float)(n4*15)*(float)(xtra),
-                                 2,x,timeb,calibrate,4);
-     
-        /* Section 5, Trig functions */
-        x = 0.5;
-        y = 0.5;
-        timea = dtime();
-         {
-            for (ix=0; ix<xtra; ix++)
-              {
-                for(i=1; i<n5; i++)
-                  {
-                     x = t*atan(t2*sin(x)*cos(x)/(cos(x+y)+cos(x-y)-1.0));
-                     y = t*atan(t2*sin(y)*cos(y)/(cos(x+y)+cos(x-y)-1.0));
-                  }
-                t = 1.0 - t;
-              }
-            t = t0;
-         }
-        timeb = dtime()-timea;
-        pout("N5 sin,cos etc.  \0",(float)(n5*26)*(float)(xtra),
-                                 2,y,timeb,calibrate,5);
-  
-        /* Section 6, Procedure calls */
-        x = 1.0;
-        y = 1.0;
-        z = 1.0;
-        timea = dtime();
-         {
-            for (ix=0; ix<xtra; ix++)
-              {
-                for(i=0; i<n6; i++)
-                  {
-                     p3(&x,&y,&z,t,t1,t2);
-                  }
-              }
-         }
-        timeb = dtime()-timea;
-        pout("N6 floating point\0",(float)(n6*6)*(float)(xtra),
-                                1,z,timeb,calibrate,6);
-  
-        /* Section 7, Array refrences */
-        j = 0;
-        k = 1;
-        l = 2;
-        e1[0] = 1.0;
-        e1[1] = 2.0;
-        e1[2] = 3.0;
-        timea = dtime();
-         {
-            for (ix=0; ix<xtra; ix++)
-              {
-                for(i=0;i<n7;i++)
-                  {
-                     po(e1,j,k,l);
-                  }
-              }
-         }
-        timeb = dtime()-timea;
-        pout("N7 assignments   \0",(float)(n7*3)*(float)(xtra),
-                            2,e1[2],timeb,calibrate,7);
-        
-        /* Section 8, Standard functions */
-        x = 0.75;
-        timea = dtime();
-         {
-            for (ix=0; ix<xtra; ix++)
-              {
-                for(i=0; i<n8; i++)
-                  {
-                     x = sqrt(exp(log(x)/t1));
-                  }
-              }
-         }
-        timeb = dtime()-timea;
-        pout("N8 exp,sqrt etc. \0",(float)(n8*4)*(float)(xtra),
-                                2,x,timeb,calibrate,8);
-
-        return;
-      }
-
-
-    void pa(SPDP e[4], SPDP t, SPDP t2)
-      {
-         long j;
-         for(j=0;j<6;j++)
+    /* Section 1, Array elements */
+    e1[0] = 1.0;
+    e1[1] = -1.0;
+    e1[2] = -1.0;
+    e1[3] = -1.0;
+    timea = dtime();
+    {
+        for (ix=0; ix<xtra; ix++)
+        {
+            for(i=0; i<n1*n1mult; i++)
             {
-               e[0] = (e[0]+e[1]+e[2]-e[3])*t;
-               e[1] = (e[0]+e[1]-e[2]+e[3])*t;
-               e[2] = (e[0]-e[1]+e[2]+e[3])*t;
-               e[3] = (-e[0]+e[1]+e[2]+e[3])/t2;
+                e1[0] = (e1[0] + e1[1] + e1[2] - e1[3]) * t;
+                e1[1] = (e1[0] + e1[1] - e1[2] + e1[3]) * t;
+                e1[2] = (e1[0] - e1[1] + e1[2] + e1[3]) * t;
+                e1[3] = (-e1[0] + e1[1] + e1[2] + e1[3]) * t;
             }
-
-         return;
-      }
-
-    void po(SPDP e1[4], long j, long k, long l)
-      {
-         e1[j] = e1[k];
-         e1[k] = e1[l];
-         e1[l] = e1[j];
-         return;
-      }
-
-    void p3(SPDP *x, SPDP *y, SPDP *z, SPDP t, SPDP t1, SPDP t2)
-      {
-         *x = *y;
-         *y = *z;
-         *x = t * (*x + *y);
-         *y = t1 * (*x + *y);
-         *z = (*x + *y)/t2;
-         return;
-      }
-
-
-    void pout(char title[18], float ops, int type, SPDP checknum,
-              SPDP time, int calibrate, int section)
-      {
-        SPDP mops,mflops;
-
-        Check = Check + checknum;
-        loop_time[section] = time;
-        strcpy (headings[section],title);
-        TimeUsed =  TimeUsed + time;
-        if (calibrate == 1)
-     
-          {
-              results[section] = checknum;
-          }
-        if (calibrate == 0)
-          {              
-            printf("%s %24.17f    ",headings[section],results[section]);    
-       
-            if (type == 1)
-             {
-                if (time>0)
-                 {
-                    mflops = ops/(1000000L*time);
-                 }
-                else
-                 {
-                   mflops = 0;
-                 }
-                loop_mops[section] = 99999;
-                loop_mflops[section] = mflops;
-                printf(" %9.3f          %9.3f\n",
-                 loop_mflops[section], loop_time[section]);                
-             }
-            else
-             {
-                if (time>0)
-                 {
-                   mops = ops/(1000000L*time);
-                 }
-                else
-                 {
-                   mops = 0;
-                 }
-                loop_mops[section] = mops;
-                loop_mflops[section] = 0;                 
-                printf("           %9.3f%9.3f\n",
-                 loop_mops[section], loop_time[section]);
-             }
-          }
-          
-        return;
-      }
-
-
-/*****************************************************/
-/* Various timer routines.                           */
-/* Al Aburto, aburto@nosc.mil, 08 Oct 1996           */
-/*                                                   */
-/* t = dtime() outputs the current time in seconds.  */
-/* Use CAUTION as some of these routines will mess   */
-/* up when timing across the hour mark!!!            */
-/*                                                   */
-/* For timing I use the 'user' time whenever         */
-/* possible. Using 'user+sys' time is a separate     */
-/* issue.                                            */
-/*                                                   */
-/* Example Usage:                                    */
-/* [timer options added here]                        */
-/* main()                                            */
-/* {                                                 */
-/*  double starttime,benchtime,dtime();              */
-/*                                                   */
-/*  starttime = dtime();                             */ 
-/*  [routine to time]                                */
-/*  benchtime = dtime() - starttime;                 */
-/* }                                                 */
-/*                                                   */
-/* [timer code below added here]                     */
-/*****************************************************/
-
-/*********************************/
-/* Timer code.                   */
-/*********************************/
-/*******************/
-/*  Amiga dtime()  */
-/*******************/
-#ifdef Amiga
-#include <ctype.h>
-#define HZ 50
-
-SPDP dtime()
-{
- SPDP q;
-
- struct tt
-       {
-        long  days;
-        long  minutes;
-        long  ticks;
-       } tt;
-
- DateStamp(&tt);
-
- q = ((SPDP)(tt.ticks + (tt.minutes * 60L * 50L))) / (SPDP)HZ;
-
- return q;
-}
-#endif
-
-/*****************************************************/
-/*  UNIX dtime(). This is the preferred UNIX timer.  */
-/*  Provided by: Markku Kolkka, mk59200@cc.tut.fi    */
-/*  HP-UX Addition by: Bo Thide', bt@irfu.se         */
-/*****************************************************/
-#ifdef UNIX
-#include <sys/time.h>
-#include <sys/resource.h>
-
-#ifdef hpux
-#include <sys/syscall.h>
-#define getrusage(a,b) syscall(SYS_getrusage,a,b)
-#endif
-
-struct rusage rusage;
-
-SPDP dtime()
-{
- SPDP q;
-
- getrusage(RUSAGE_SELF,&rusage);
-
- q = (SPDP)(rusage.ru_utime.tv_sec);
- q = q + (SPDP)(rusage.ru_utime.tv_usec) * 1.0e-06;
-        
- return q;
-}
-#endif
-
-/***************************************************/
-/*  UNIX_Old dtime(). This is the old UNIX timer.  */
-/*  Use only if absolutely necessary as HZ may be  */
-/*  ill defined on your system.                    */
-/***************************************************/
-#ifdef UNIX_Old
-#include <sys/types.h>
-#include <sys/times.h>
-#include <sys/param.h>
-
-#ifndef HZ
-#define HZ 60
-#endif
-
-struct tms tms;
-
-SPDP dtime()
-{
- SPDP q;
-
- times(&tms);
-
- q = (SPDP)(tms.tms_utime) / (SPDP)HZ;
-        
- return q;
-}
-#endif
-
-/*********************************************************/
-/*  VMS dtime() for VMS systems.                         */
-/*  Provided by: RAMO@uvphys.phys.UVic.CA                */
-/*  Some people have run into problems with this timer.  */
-/*********************************************************/
-#ifdef VMS
-#include time
-
-#ifndef HZ
-#define HZ 100
-#endif
-
-struct tbuffer_t
-       {
-        int proc_user_time;
-        int proc_system_time;
-        int child_user_time;
-        int child_system_time;
-       };
-struct tbuffer_t tms;
-
-SPDP dtime()
-{
- SPDP q;
-
- times(&tms);
-
- q = (SPDP)(tms.proc_user_time) / (SPDP)HZ;
-        
- return q;
-}
-#endif
-
-/******************************/
-/*  BORLAND C dtime() for DOS */
-/******************************/
-#ifdef BORLAND_C
-#include <ctype.h>
-#include <dos.h>
-#include <time.h>
-
-#define HZ 100
-struct time tnow;
-
-SPDP dtime()
-{
- SPDP q;
-
- gettime(&tnow);
-
- q = 60.0 * (SPDP)(tnow.ti_min);
- q = q + (SPDP)(tnow.ti_sec);
- q = q + (SPDP)(tnow.ti_hund)/(SPDP)HZ;
-        
- return q;
-}
-#endif
-
-/***************************************/
-/*  Microsoft C (MSC) dtime() for DOS  */
-/*  Also suitable for Watcom C/C++ and */
-/*  some other PC compilers            */
-/***************************************/
-#ifdef MSC
-#include <time.h>
-#include <ctype.h>
-
-#define HZ CLOCKS_PER_SEC
-clock_t tnow;
-
-SPDP dtime()
-{
- SPDP q;
-
- tnow = clock();
- q = (SPDP)tnow / (SPDP)HZ;
- return q;
-}
-#endif
-
-/*************************************/
-/*  Macintosh (MAC) Think C dtime()  */
-/*************************************/
-#ifdef MAC
-#include <time.h>
-
-#define HZ 60
-
-SPDP dtime()
-{
- SPDP q;
-
- q = (SPDP)clock() / (SPDP)HZ;
-        
- return q;
-}
-#endif
-
-/************************************************************/
-/*  iPSC/860 (IPSC) dtime() for i860.                       */
-/*  Provided by: Dan Yergeau, yergeau@gloworm.Stanford.EDU  */
-/************************************************************/
-#ifdef IPSC
-extern double dclock();
-
-SPDP dtime()
-{
- SPDP q;
-
- q = dclock();
-        
- return q;
-}
-#endif
-
-/**************************************************/
-/*  FORTRAN dtime() for Cray type systems.        */
-/*  This is the preferred timer for Cray systems. */
-/**************************************************/
-#ifdef FORTRAN_SEC
-
-fortran double second();
-
-SPDP dtime()
-{
- SPDP q;
-
- second(&q);
-        
- return q;
-}
-#endif
-
-/***********************************************************/
-/*  UNICOS C dtime() for Cray UNICOS systems.  Don't use   */
-/*  unless absolutely necessary as returned time includes  */
-/*  'user+system' time.  Provided by: R. Mike Dority,      */
-/*  dority@craysea.cray.com                                */
-/***********************************************************/
-#ifdef CTimer
-#include <time.h>
-
-SPDP dtime()
-{
- SPDP q;
- clock_t   clock(void);
-
- q = (SPDP)clock() / (SPDP)CLOCKS_PER_SEC;
-
- return q;
-}
-#endif
-
-/********************************************/
-/* Another UNIX timer using gettimeofday(). */
-/* However, getrusage() is preferred.       */
-/********************************************/
-#ifdef GTODay
-#include <sys/time.h>
-
-struct timeval tnow;
-
-SPDP dtime()
-{
- SPDP q;
-
- gettimeofday(&tnow,NULL);
- q = (SPDP)tnow.tv_sec + (SPDP)tnow.tv_usec * 1.0e-6;
-
- return q;
-}
-#endif
-
-/*****************************************************/
-/*  Fujitsu UXP/M timer.                             */
-/*  Provided by: Mathew Lim, ANUSF, M.Lim@anu.edu.au */
-/*****************************************************/
-#ifdef UXPM
-#include <sys/types.h>
-#include <sys/timesu.h>
-struct tmsu rusage;
-
-SPDP dtime()
-{
- SPDP q;
-
- timesu(&rusage);
-
- q = (SPDP)(rusage.tms_utime) * 1.0e-06;
-        
- return q;
-}
-#endif
-
-/**********************************************/
-/*    Macintosh (MAC_TMgr) Think C dtime()    */
-/*   requires Think C Language Extensions or  */
-/*    #include <MacHeaders> in the prefix     */
-/*  provided by Francis H Schiffer 3rd (fhs)  */
-/*         skipschiffer@genie.geis.com        */
-/**********************************************/
-#ifdef MAC_TMgr
-#include <Timer.h>
-#include <stdlib.h>
-
-static TMTask   mgrTimer;
-static Boolean  mgrInited = false;
-static SPDP     mgrClock;
-
-#define RMV_TIMER RmvTime( (QElemPtr)&mgrTimer )
-#define MAX_TIME  1800000000L
-/* MAX_TIME limits time between calls to */
-/* dtime( ) to no more than 30 minutes   */
-/* this limitation could be removed by   */
-/* creating a completion routine to sum  */
-/* 30 minute segments (fhs 1994 feb 9)   */
-
-static void Remove_timer( )
-{
- RMV_TIMER;
- mgrInited = false;
-}
-
-SPDP dtime( )
-{
- if( mgrInited ) {
-        RMV_TIMER;
-        mgrClock += (MAX_TIME + mgrTimer.tmCount)*1.0e-6;
- } else {
-        if( _atexit( &Remove_timer ) == 0 ) mgrInited = true;
-        mgrClock = 0.0;
-}
-        if( mgrInited ) {
-                mgrTimer.tmAddr = NULL;
-                mgrTimer.tmCount = 0;
-                mgrTimer.tmWakeUp = 0;
-                mgrTimer.tmReserved = 0;
-                InsTime( (QElemPtr)&mgrTimer );
-                PrimeTime( (QElemPtr)&mgrTimer, -MAX_TIME );
+            t = 1.0 - t;
         }
-        return( mgrClock );
+        t =  t0;                    
+    }
+    timeb = (dtime()-timea)/(SPDP)(n1mult);
+    pout("N1 floating point\0",(float)(n1*16)*(float)(xtra),1,e1[3],timeb,calibrate,1);
+
+    /* Section 2, Array as parameter */
+    timea = dtime();
+    {
+        for (ix=0; ix<xtra; ix++)
+        { 
+            for(i=0; i<n2; i++)
+            {
+                pa(e1,t,t2);
+            }
+            t = 1.0 - t;
+        }
+        t =  t0;
+    }
+    timeb = dtime()-timea;
+    pout("N2 floating point\0",(float)(n2*96)*(float)(xtra),1,e1[3],timeb,calibrate,2);
+
+    /* Section 3, Conditional jumps */
+    j = 1;
+    timea = dtime();
+    {
+        for (ix=0; ix<xtra; ix++)
+        {
+            for(i=0; i<n3; i++)
+            {
+                if(j==1)       j = 2;
+                else           j = 3;
+                if(j>2)        j = 0;
+                else           j = 1;
+                if(j<1)        j = 1;
+                else           j = 0;
+            }
+        }
+    }
+    timeb = dtime()-timea;
+    pout("N3 if then else  \0",(float)(n3*3)*(float)(xtra),2,(SPDP)(j),timeb,calibrate,3);
+
+    /* Section 4, Integer arithmetic */
+    j = 1;
+    k = 2;
+    l = 3;
+    timea = dtime();
+    {
+        for (ix=0; ix<xtra; ix++)
+        {
+            for(i=0; i<n4; i++)
+            {
+                j = j *(k-j)*(l-k);
+                k = l * k - (l-j) * k;
+                l = (l-k) * (k+j);
+                e1[l-2] = j + k + l;
+                e1[k-2] = j * k * l;
+            }
+        }
+    }
+    timeb = dtime()-timea;
+    x = e1[0]+e1[1];
+    pout("N4 fixed point   \0",(float)(n4*15)*(float)(xtra),2,x,timeb,calibrate,4);
+
+    /* Section 5, Trig functions */
+    x = 0.5;
+    y = 0.5;
+    timea = dtime();
+    {
+        for (ix=0; ix<xtra; ix++)
+        {
+            for(i=1; i<n5; i++)
+            {
+                x = t*atan(t2*sin(x)*cos(x)/(cos(x+y)+cos(x-y)-1.0));
+                y = t*atan(t2*sin(y)*cos(y)/(cos(x+y)+cos(x-y)-1.0));
+            }
+            t = 1.0 - t;
+        }
+        t = t0;
+    }
+    timeb = dtime()-timea;
+    pout("N5 sin,cos etc.  \0",(float)(n5*26)*(float)(xtra),2,y,timeb,calibrate,5);
+
+    /* Section 6, Procedure calls */
+    x = 1.0;
+    y = 1.0;
+    z = 1.0;
+    timea = dtime();
+    {
+        for (ix=0; ix<xtra; ix++)
+        {
+            for(i=0; i<n6; i++)
+            {
+                p3(&x,&y,&z,t,t1,t2);
+            }
+        }
+    }
+    timeb = dtime()-timea;
+    pout("N6 floating point\0",(float)(n6*6)*(float)(xtra),1,z,timeb,calibrate,6);
+
+    /* Section 7, Array refrences */
+    j = 0;
+    k = 1;
+    l = 2;
+    e1[0] = 1.0;
+    e1[1] = 2.0;
+    e1[2] = 3.0;
+    timea = dtime();
+    {
+        for (ix=0; ix<xtra; ix++)
+        {
+            for(i=0;i<n7;i++)
+            {
+                po(e1,j,k,l);
+            }
+        }
+    }
+    timeb = dtime()-timea;
+    pout("N7 assignments   \0",(float)(n7*3)*(float)(xtra),2,e1[2],timeb,calibrate,7);
+
+    /* Section 8, Standard functions */
+    x = 0.75;
+    timea = dtime();
+    {
+        for (ix=0; ix<xtra; ix++)
+        {
+            for(i=0; i<n8; i++)
+            {
+                x = sqrt(exp(log(x)/t1));
+            }
+        }
+    }
+    timeb = dtime()-timea;
+    pout("N8 exp,sqrt etc. \0",(float)(n8*4)*(float)(xtra),2,x,timeb,calibrate,8);
+
+    return;
 }
-#endif
 
-/***********************************************************/
-/*  Parsytec GCel timer.                                   */
-/*  Provided by: Georg Wambach, gw@informatik.uni-koeln.de */
-/***********************************************************/
-#ifdef PARIX
-#include <sys/time.h>
 
-SPDP dtime()
+void pa(SPDP e[4], SPDP t, SPDP t2)
 {
- SPDP q;
-
- q = (SPDP) (TimeNowHigh()) / (SPDP) CLK_TCK_HIGH;
-
- return q;
+    long j;
+    for(j=0;j<6;j++)
+    {
+        e[0] = (e[0]+e[1]+e[2]-e[3])*t;
+        e[1] = (e[0]+e[1]-e[2]+e[3])*t;
+        e[2] = (e[0]-e[1]+e[2]+e[3])*t;
+        e[3] = (-e[0]+e[1]+e[2]+e[3])/t2;
+    }
+    return;
 }
-#endif
 
-/************************************************/
-/*  Sun Solaris POSIX dtime() routine           */
-/*  Provided by: Case Larsen, CTLarsen.lbl.gov  */
-/************************************************/
-#ifdef POSIX
-#include <sys/time.h>
-#include <sys/resource.h>
-#include <sys/rusage.h>
-
-#ifdef __hpux
-#include <sys/syscall.h>
-#endif
-
-struct rusage rusage;
-
-SPDP dtime()
+void po(SPDP e1[4], long j, long k, long l)
 {
- SPDP q;
-
- getrusage(RUSAGE_SELF,&rusage);
-
- q = (SPDP)(rusage.ru_utime.tv_sec);
- q = q + (SPDP)(rusage.ru_utime.tv_nsec) * 1.0e-09;
-        
- return q;
+    e1[j] = e1[k];
+    e1[k] = e1[l];
+    e1[l] = e1[j];
+    return;
 }
-#endif
+
+void p3(SPDP *x, SPDP *y, SPDP *z, SPDP t, SPDP t1, SPDP t2)
+{
+    *x = *y;
+    *y = *z;
+    *x = t * (*x + *y);
+    *y = t1 * (*x + *y);
+    *z = (*x + *y)/t2;
+    return;
+}
 
 
-/****************************************************/
-/*  Windows NT (32 bit) dtime() routine             */
-/*  Provided by: Piers Haken, piersh@microsoft.com  */
-/****************************************************/
-#ifdef WIN32
-#include <windows.h>
+void pout(char title[18], float ops, int type, SPDP checknum, SPDP time, int calibrate, int section)
+{
+    SPDP mops,mflops;
+    Check = Check + checknum;
+    loop_time[section] = time;
+    strcpy (headings[section],title);
+    TimeUsed =  TimeUsed + time;
+    if (calibrate == 1)
+    {
+        results[section] = checknum;
+    }
+    if (calibrate == 0)
+    {
+        printf("%s %24.17f    ",headings[section],results[section]);
+  
+        if (type == 1)
+        {
+            if (time>0)
+            {
+                mflops = ops/(1000000L*time);
+            }
+            else
+            {
+                mflops = 0;
+            }
+            loop_mops[section] = 99999;
+            loop_mflops[section] = mflops;
+            printf(" %9.3f          %9.3f\n", loop_mflops[section], loop_time[section]);
+        }
+        else
+        {
+            if (time>0)
+            {
+                mops = ops/(1000000L*time);
+            }
+            else
+            {
+                mops = 0;
+            }
+            loop_mops[section] = mops;
+            loop_mflops[section] = 0;                 
+            printf("           %9.3f%9.3f\n", loop_mops[section], loop_time[section]);
+        }
+    }
+    return;
+}
 
 SPDP dtime(void)
 {
- SPDP q;
-
- q = (SPDP)GetTickCount() * 1.0e-03;
-        
- return q;
+    SPDP q;
+    asm __volatile__ ("csrr %[dst01], mcycle\n" : [dst01]"=r"(q) : : );
+    q *= 1.0e-06;
+    return q;
 }
-#endif
-
-
-/****************************************************/
-/*  Windows NT (32 bit) dtime() routine             */
-/*  Provided by: Piers Haken, piersh@microsoft.com  */
-/****************************************************/
-#ifdef RISCV
-#include "encoding.h"
-
-SPDP dtime(void)
-{
- SPDP q;
- asm __volatile__ ("csrr %[dst01], mcycle\n" : [dst01]"=r"(q) : : );
- q *= 1.0e-06;
- return q;
-}
-#endif
 
 
