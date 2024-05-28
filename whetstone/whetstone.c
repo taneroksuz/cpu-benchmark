@@ -350,23 +350,13 @@ main()
     int section;
     long x100 = 100;
     int duration = 100;
-    FILE *outfile;
     char compiler[80], options[256], general[10][80] = {" "};
     char *endit;
   
     printf("\n");
     printf("##########################################\n"); 
     printf("%s Precision C/C++ Whetstone Benchmark\n\n", Precision);
-
-    outfile = fopen("whets.res","a+");
-    if (outfile == NULL)
-      {
-       printf ("Cannot open results file \n\n");
-       printf("Press RETURN to exit\n");
-       gets(endit);
-       exit (0);
-      }
-            
+  
   printf("Calibrate\n");
   do
    {
@@ -436,103 +426,47 @@ main()
  printf ("When submitting a number of results you need only provide details once\n");
  printf ("but a cross reference such as an abbreviated CPU type would be useful.\n");    
  printf ("You can kill (exit or close) the program now and no data will be added.\n\n");
-
- printf ("Date:       ");
- gets(general[0]);
-
- printf ("Computer:   ");
- gets(general[1]);
-
- printf ("CPU chip:   ");
- gets(general[2]);
- 
- printf ("Clock MHz:  ");
- gets(general[3]);
- 
- printf ("Cache size: ");
- gets(general[4]);
- 
- printf ("H/W options:");
- gets(general[5]);
-  
- printf ("OS version: ");
- gets(general[6]);
-
- #ifdef PRECOMP
-    strcpy (compiler, precompiler);
-    strcpy (options, preoptions);
- #else
-    printf ("Compiler:   ");
-    gets(compiler);
-
-    printf ("Options:    ");
-    gets(options);
- #endif
- 
- printf ("Your name:  ");
- gets(general[7]);
- 
- printf ("From:       ");
- gets(general[8]);
- 
- printf ("Email:      ");
- gets(general[9]);
  
 
  /************************************************************************/
  /*               Add results to output file whets.res                   */
  /************************************************************************/
- fprintf (outfile, "\n"); 
- fprintf (outfile, "##############################################\n");
- fprintf (outfile, "Whetstone %s  Precision Benchmark in C/C++\n\n",Precision);
- fprintf (outfile, "Date         %s\n", general[0]);
- fprintf (outfile, "Model        %s\n", general[1]);
- fprintf (outfile, "CPU          %s\n", general[2]);
- fprintf (outfile, "Clock MHz    %s\n", general[3]);
- fprintf (outfile, "Cache        %s\n", general[4]);
- fprintf (outfile, "H/W options  %s\n", general[5]);
- fprintf (outfile, "OS           %s\n", general[6]);
- fprintf (outfile, "Compiler     %s\n", compiler);
- fprintf (outfile, "Options      %s\n", options);
- fprintf (outfile, "Run by       %s\n", general[7]);
- fprintf (outfile, "From         %s\n", general[8]);
- fprintf (outfile, "Email        %s\n", general[9]);
- fprintf (outfile, "\n");
+ printf ("\n"); 
+ printf ("##############################################\n");
+ printf ("Whetstone %s  Precision Benchmark in C/C++\n\n",Precision);
 
- fprintf (outfile,"Loop content                   Result"
+ printf ("Loop content                   Result"
             "              MFLOPS      MOPS   Seconds\n\n"); 
                            
  for (section=1; section<9; section++)
     {
-     fprintf (outfile, "%s  %24.17f   ", headings[section],
+     printf ("%s  %24.17f   ", headings[section],
                                               results[section]);
      if (loop_mops[section] == 99999)
        {          
-        fprintf (outfile,"  %9.3f           %9.3f\n",
+        printf ("  %9.3f           %9.3f\n",
                  loop_mflops[section], loop_time[section]);
        }
        else
        {       
-        fprintf (outfile, "            %9.3f %9.3f\n",
+        printf ("            %9.3f %9.3f\n",
              loop_mops[section], loop_time[section], results[section]);
        }
     }
 
- fprintf (outfile, "\nMWIPS             ");
- fprintf (outfile, "%39.3f%20.3f\n\n",mwips,TimeUsed);
- fprintf (outfile, "Results  to  load  to  spreadsheet             ");
- fprintf (outfile, "     MWIPS   Mflops1   Mflops2   Mflops3   Cosmops"
+ printf ("\nMWIPS             ");
+ printf ("%39.3f%20.3f\n\n",mwips,TimeUsed);
+ printf ("Results  to  load  to  spreadsheet             ");
+ printf ("     MWIPS   Mflops1   Mflops2   Mflops3   Cosmops"
                       "   Expmops  Fixpmops    Ifmops    Eqmops\n");
- fprintf (outfile, "Results  to  load  to  spreadsheet             ");   
+ printf ("Results  to  load  to  spreadsheet             ");   
                 
- fprintf (outfile, " %9.3f %9.3f %9.3f", mwips, loop_mflops[1],
+ printf (" %9.3f %9.3f %9.3f", mwips, loop_mflops[1],
                                                          loop_mflops[2]);
- fprintf (outfile, " %9.3f %9.3f %9.3f", loop_mflops[6],
+ printf (" %9.3f %9.3f %9.3f", loop_mflops[6],
                                              loop_mops[5], loop_mops[8]);
- fprintf (outfile, " %9.3f %9.3f %9.3f\n\n", loop_mops[4],
+ printf (" %9.3f %9.3f %9.3f\n\n", loop_mops[4],
                                               loop_mops[3], loop_mops[7]);
-    
- fclose (outfile);
 	
  printf ("\n");
  printf ("A new results file will have been created in the same directory as the\n");

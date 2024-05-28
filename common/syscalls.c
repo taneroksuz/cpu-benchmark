@@ -5,11 +5,16 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <limits.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <errno.h>
 #include "util.h"
 
 #define SYS_write 64
 #define SYS_exit 93
 #define SYS_stats 1234
+
+#define UART 0x1000000
 
 extern volatile uint64_t tohost;
 extern volatile uint64_t fromhost;
@@ -124,9 +129,7 @@ void _init(int cid, int nc)
 #undef putchar
 int putchar(int ch)
 {
-  volatile char *uart = (char *)0x1000000;
-  *(uart) = (char) ch;
-
+  *(volatile char*)UART = (char) ch;
   return 0;
 }
 
@@ -454,3 +457,43 @@ long atol(const char* str)
   return sign ? -res : res;
 }
 
+ssize_t _lseek(int file, int ptr, size_t len)
+{
+  return 0;
+}
+
+ssize_t _read(int file, void *ptr, size_t len)
+{
+  return 0;
+}
+
+ssize_t _write(int file, const void *ptr, size_t len)
+{
+  const void *eptr = ptr + len;
+  while (ptr != eptr)
+    *(volatile int*)UART = *(char*)(ptr++);
+  return len;
+}
+
+int _close(int file)
+{
+  return 0;
+}
+
+int _fstat(int file, struct stat *st)
+{
+  errno = ENOENT;
+  return -1;
+}
+
+void *_sbrk(ptrdiff_t incr)
+{
+  extern unsigned char _end[];
+  static unsigned long heap_end;
+
+  if (heap_end == 0)
+    heap_end = (long)_end;
+
+  heap_end += incr;
+  return (void *)(heap_end - incr);
+}
