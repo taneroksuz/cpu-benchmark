@@ -17,6 +17,18 @@ fi
 
 cp -r $BASEDIR/../coremark $BASEDIR/
 
+mkdir -p $BASEDIR/coremark/common/
+
+cp $BASEDIR/crt.S $BASEDIR/coremark/common/
+cp $BASEDIR/test.ld $BASEDIR/coremark/common/
+
+cp $BASEDIR/../common/util.h $BASEDIR/coremark/common/
+cp $BASEDIR/../common/encoding.h $BASEDIR/coremark/common/
+cp $BASEDIR/../common/strcmp.S $BASEDIR/coremark/common/
+cp $BASEDIR/../common/syscalls.c $BASEDIR/coremark/common/
+cp $BASEDIR/../common/ee_printf.c $BASEDIR/coremark/common/
+cp $BASEDIR/../common/core_portme.* $BASEDIR/coremark/common/
+
 cd $BASEDIR/coremark
 
-make PORT_DIR=$BASEDIR/../common
+make PORT_DIR=$BASEDIR/coremark/common

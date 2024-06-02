@@ -19,10 +19,12 @@ mkdir -p $BASEDIR/whetstone/common
 
 cp $BASEDIR/../whetstone/whetstone.c $BASEDIR/whetstone/
 
-cp $BASEDIR/../common/crt.S $BASEDIR/whetstone/common/
+cp $BASEDIR/crt.S $BASEDIR/whetstone/common/
+cp $BASEDIR/test.ld $BASEDIR/whetstone/common/
+
 cp $BASEDIR/../common/util.h $BASEDIR/whetstone/common/
-cp $BASEDIR/../common/test.ld $BASEDIR/whetstone/common/
 cp $BASEDIR/../common/encoding.h $BASEDIR/whetstone/common/
+cp $BASEDIR/../common/strcmp.S $BASEDIR/whetstone/common/
 cp $BASEDIR/../common/syscalls.c $BASEDIR/whetstone/common/
 cp $BASEDIR/../common/whetstone.mak $BASEDIR/whetstone/Makefile
 

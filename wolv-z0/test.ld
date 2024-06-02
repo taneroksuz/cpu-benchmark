@@ -2,13 +2,13 @@ OUTPUT_ARCH( "riscv" )
 
 MEMORY
 {
-  bram (airwx) : ORIGIN = 0x80000000, LENGTH = 0x100000
+  ram (airwx) : ORIGIN = 0x80000000, LENGTH = 0x100000
   host (airwx) : ORIGIN = 0x90000000, LENGTH = 0x100
 }
 
 PHDRS
 {
-    bram PT_LOAD;
+    ram PT_LOAD;
     host PT_LOAD;
 }
 
@@ -18,43 +18,43 @@ SECTIONS
   .text.init :
   {
     *(.text.init)
-  } >bram :bram
+  } >ram :ram
 
   .text :
   {
     *(.text)
-  } >bram :bram
+  } >ram :ram
 
   .data :
   {
     *(.data)
-  } >bram :bram
+  } >ram :ram
 
   .sdata :
   {
     _gp = . + 0x800;
     *(.sdata)
-  } >bram :bram
+  } >ram :ram
 
   .sbss :
   {
     *(.sbss)
-  } >bram :bram
+  } >ram :ram
 
   .bss :
   {
     *(.bss)
-  } >bram :bram
+  } >ram :ram
 
   .heap (NOLOAD) :
   {
      _end = .;
-  } >bram :bram
+  } >ram :ram
 
   .stack (NOLOAD) :
   {
-     _sp = ORIGIN(bram) + LENGTH(bram);
-  } >bram :bram
+     _sp = ORIGIN(ram) + LENGTH(ram);
+  } >ram :ram
 
   .tohost :
   {
