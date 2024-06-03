@@ -1,6 +1,7 @@
 */riscv-gnu-toolchain/
 */benchmarks/
 */whetstone/
+*/isa/
 */coremark/
 */binutils/
 */combined/
