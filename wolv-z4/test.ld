@@ -2,63 +2,64 @@ OUTPUT_ARCH( "riscv" )
 
 MEMORY
 {
-  ram (airwx) : ORIGIN = 0x80000000, LENGTH = 0x100000
-  host (airwx) : ORIGIN = 0x90000000, LENGTH = 0x100
-}
-
-PHDRS
-{
-    ram PT_LOAD;
-    host PT_LOAD;
+  tim0 (rwx) : ORIGIN = 0x10000000, LENGTH = 0x100000
+  tim1 (rwx) : ORIGIN = 0x20000000, LENGTH = 0x100000
+  ram (rwx) : ORIGIN = 0x80000000, LENGTH = 0x100000
+  host (rwx) : ORIGIN = 0x90000000, LENGTH = 0x100
 }
 
 SECTIONS
 {
 
-  .text.init :
+  OVERLAY :
   {
-    *(.text.init)
-  } >ram :ram
+    .text.init
+    {
+      *(.text.init)
+    }
+  } >ram AT>ram
 
-  .text :
+  OVERLAY :
   {
-    *(.text)
-  } >ram :ram
+    .text
+    {
+      *(.text)
+    }
+  } >ram AT>ram
 
-  .data :
+  OVERLAY :
   {
-    *(.data)
-  } >ram :ram
-
-  .sdata :
-  {
-    _gp = . + 0x800;
-    *(.sdata)
-  } >ram :ram
-
-  .sbss :
-  {
-    *(.sbss)
-  } >ram :ram
-
-  .bss :
-  {
-    *(.bss)
-  } >ram :ram
-
-  .heap (NOLOAD) :
-  {
-     _end = .;
-  } >ram :ram
-
-  .stack (NOLOAD) :
-  {
-     _sp = ORIGIN(ram) + LENGTH(ram);
-  } >ram :ram
+    .data
+    {
+      *(.data)
+    }
+    .sdata
+    {
+      _gp = . + 0x800;
+      *(.sdata)
+    }
+    .sbss
+    {
+      *(.sbss)
+    }
+    .bss
+    {
+      *(.bss)
+    }
+    .heap
+    {
+      _end = .;
+    }
+    .stack
+    {
+      _sp = ORIGIN(tim1) + LENGTH(tim1);
+    }
+  } >ram AT>ram
 
   .tohost :
   {
     *(.tohost)
-  } >host :host
+  } >host
 
 }
+
