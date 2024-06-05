@@ -25,7 +25,7 @@ SECTIONS
     {
       *(.text)
     }
-  } >ram AT>ram
+  } >tim0 AT>ram
 
   OVERLAY :
   {
@@ -54,7 +54,7 @@ SECTIONS
     {
       _sp = ORIGIN(tim1) + LENGTH(tim1);
     }
-  } >ram AT>ram
+  } >tim1 AT>ram
 
   .tohost :
   {

@@ -30,7 +30,7 @@ LD  = $(RISCV_PREFIX)ld
 AS  = $(RISCV_PREFIX)as
 # Flag : CFLAGS
 # Use this flag to define compiler options. Note, you can add compiler options from the command line using XCFLAGS="other flags"
-PORT_CFLAGS = -O3 -fno-common -funroll-loops -finline-functions -falign-functions=16 -falign-jumps=4 -falign-loops=4 -finline-limit=1000 -fno-if-conversion2 -fselective-scheduling -fno-tree-dominator-opts -fno-tree-loop-distribute-patterns -nostartfiles -lm -lgcc -T $(PORT_DIR)/test.ld
+PORT_CFLAGS = -O3 -fno-common -funroll-loops -finline-functions -falign-functions=16 -falign-jumps=4 -falign-loops=4 -finline-limit=1000 -fno-if-conversion2 -fselective-scheduling -fno-tree-dominator-opts -fno-tree-loop-distribute-patterns -ffunction-sections -fdata-sections -nostartfiles -lm -lgcc -T $(PORT_DIR)/test.ld
 PORT_CFLAGS += -DPERFORMANCE_RUN=1 -DITERATIONS=10 -DMAIN_HAS_NOARGC=1 -DMAIN_HAS_NORETURN=1 -DHAS_FLOAT=0
 
 # Turn of the maybe-unitialized warning to pacify -Wall -Wextra -Wpedantic -Werror on code we can't control

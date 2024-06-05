@@ -119,7 +119,9 @@ _start:
   # initialize stack pointer
   la sp, _sp
 
-  j _init
+  la t0, _init
+
+  jalr t0
 
   .align 2
 trap_entry:
@@ -160,7 +162,8 @@ trap_entry:
   csrr a0, mcause
   csrr a1, mepc
   mv a2, sp
-  jal handle_trap
+  la t0, handle_trap
+  jalr t0
   csrw mepc, a0
 
   # Remain in M-mode after eret
