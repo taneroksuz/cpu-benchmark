@@ -122,10 +122,10 @@ _start:
   la t3, __tim0_end
 
 copy_text:
-  lw t4,0(t0)
-  sw t4,0(t2)
-  addi t0,t0,4
-  addi t2,t2,4
+  lb t4,0(t0)
+  sb t4,0(t2)
+  addi t0,t0,1
+  addi t2,t2,1
   ble t0,t1,copy_text
 
   # copy data section
@@ -137,10 +137,10 @@ copy_text:
   la t3, __tim1_end
 
 copy_data:
-  lw t4,0(t0)
-  sw t4,0(t2)
-  addi t0,t0,4
-  addi t2,t2,4
+  lb t4,0(t0)
+  sb t4,0(t2)
+  addi t0,t0,1
+  addi t2,t2,1
   ble t0,t1,copy_data
 
   # copy bss section
@@ -149,10 +149,10 @@ copy_data:
   la t1, __load_stop_bss
 
 copy_bss:
-  lw t4,0(t0)
-  sw t4,0(t2)
-  addi t0,t0,4
-  addi t2,t2,4
+  lb t4,0(t0)
+  sb t4,0(t2)
+  addi t0,t0,1
+  addi t2,t2,1
   ble t0,t1,copy_bss
 
   la t0, _init
