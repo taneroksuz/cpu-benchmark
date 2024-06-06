@@ -23,7 +23,10 @@ SECTIONS
   {
     .text
     {
+      . = ALIGN(8);
+      __store_start_text = .;
       *(.text)
+      __store_stop_text = .;
     }
   } >tim0 AT>ram
 
@@ -31,20 +34,25 @@ SECTIONS
   {
     .data
     {
+      . = ALIGN(8);
+      __store_start_data = .;
       *(.data)
     }
     .sdata
     {
       _gp = . + 0x800;
       *(.sdata)
+      __store_stop_data = .;
     }
     .sbss
     {
+      __store_start_bss = .;
       *(.sbss)
     }
     .bss
     {
       *(.bss)
+      __store_stop_bss = .;
     }
     .heap
     {

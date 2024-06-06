@@ -119,6 +119,51 @@ _start:
   # initialize stack pointer
   la sp, _sp
 
+  # copy text section
+
+  la t0, __load_start_text
+  la t1, __load_stop_text
+
+  la t2, __store_start_text
+  la t3, __store_stop_text
+
+copy_text:
+  lw t4,0(t0)
+  sw t4,0(t2)
+  addi t0,t0,4
+  addi t2,t2,4
+  ble t2,t3,copy_text
+
+  # copy data section
+
+  la t0, __load_start_data
+  la t1, __load_stop_data
+
+  la t2, __store_start_data
+  la t3, __store_stop_data
+
+copy_data:
+  lw t4,0(t0)
+  sw t4,0(t2)
+  addi t0,t0,4
+  addi t2,t2,4
+  ble t2,t3,copy_data
+
+  # copy bss section
+
+  la t0, __load_start_bss
+  la t1, __load_stop_bss
+
+  la t2, __store_start_bss
+  la t3, __store_stop_bss
+
+copy_bss:
+  lw t4,0(t0)
+  sw t4,0(t2)
+  addi t0,t0,4
+  addi t2,t2,4
+  ble t2,t3,copy_bss
+
   la t0, _init
 
   jalr t0
