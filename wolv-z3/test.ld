@@ -24,6 +24,7 @@ SECTIONS
     .text
     {
       *(.text)
+      *(.text.*)
     }
   } >tim0 AT>ram
 

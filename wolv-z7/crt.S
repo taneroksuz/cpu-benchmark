@@ -126,7 +126,7 @@ copy_text:
   sb t4,0(t2)
   addi t0,t0,1
   addi t2,t2,1
-  ble t0,t1,copy_text
+  blt t0,t1,copy_text
 
   # copy data section
 
@@ -141,7 +141,7 @@ copy_data:
   sb t4,0(t2)
   addi t0,t0,1
   addi t2,t2,1
-  ble t0,t1,copy_data
+  blt t0,t1,copy_data
 
   # copy bss section
 
@@ -153,7 +153,7 @@ copy_bss:
   sb t4,0(t2)
   addi t0,t0,1
   addi t2,t2,1
-  ble t0,t1,copy_bss
+  blt t0,t1,copy_bss
 
   la t0, _init
 
