@@ -110,12 +110,6 @@ _start:
   la t0, trap_entry
   csrw mtvec, t0
 
-  # initialize global pointer
-.option push
-.option norelax
-  la gp, _gp
-.option pop
-
   # initialize stack pointer
   la sp, _sp
 

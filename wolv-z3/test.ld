@@ -23,10 +23,7 @@ SECTIONS
   {
     .text
     {
-      . = ALIGN(8);
-      __store_start_text = .;
       *(.text)
-      __store_stop_text = .;
     }
   } >tim0 AT>ram
 
@@ -34,25 +31,19 @@ SECTIONS
   {
     .data
     {
-      . = ALIGN(8);
-      __store_start_data = .;
       *(.data)
     }
     .sdata
     {
-      _gp = . + 0x800;
       *(.sdata)
-      __store_stop_data = .;
     }
     .sbss
     {
-      __store_start_bss = .;
       *(.sbss)
     }
     .bss
     {
       *(.bss)
-      __store_stop_bss = .;
     }
     .heap
     {
@@ -68,6 +59,12 @@ SECTIONS
   {
     *(.tohost)
   } >host
+
+  PROVIDE(__tim0_start = ORIGIN(tim0));
+  PROVIDE(__tim0_end = ORIGIN(tim0) + LENGTH(tim0));
+
+  PROVIDE(__tim1_start = ORIGIN(tim1));
+  PROVIDE(__tim1_end = ORIGIN(tim1) + LENGTH(tim1));
 
 }
 

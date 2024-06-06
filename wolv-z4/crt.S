@@ -110,12 +110,6 @@ _start:
   la t0, trap_entry
   csrw mtvec, t0
 
-  # initialize global pointer
-.option push
-.option norelax
-  la gp, _gp
-.option pop
-
   # initialize stack pointer
   la sp, _sp
 
@@ -124,45 +118,42 @@ _start:
   la t0, __load_start_text
   la t1, __load_stop_text
 
-  la t2, __store_start_text
-  la t3, __store_stop_text
+  la t2, __tim0_start
+  la t3, __tim0_end
 
 copy_text:
   lw t4,0(t0)
   sw t4,0(t2)
   addi t0,t0,4
   addi t2,t2,4
-  ble t2,t3,copy_text
+  ble t0,t1,copy_text
 
   # copy data section
 
   la t0, __load_start_data
   la t1, __load_stop_data
 
-  la t2, __store_start_data
-  la t3, __store_stop_data
+  la t2, __tim1_start
+  la t3, __tim1_end
 
 copy_data:
   lw t4,0(t0)
   sw t4,0(t2)
   addi t0,t0,4
   addi t2,t2,4
-  ble t2,t3,copy_data
+  ble t0,t1,copy_data
 
   # copy bss section
 
   la t0, __load_start_bss
   la t1, __load_stop_bss
 
-  la t2, __store_start_bss
-  la t3, __store_stop_bss
-
 copy_bss:
   lw t4,0(t0)
   sw t4,0(t2)
   addi t0,t0,4
   addi t2,t2,4
-  ble t2,t3,copy_bss
+  ble t0,t1,copy_bss
 
   la t0, _init
 

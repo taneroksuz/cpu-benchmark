@@ -26,7 +26,6 @@ SECTIONS
 
   .sdata :
   {
-    _gp = . + 0x800;
     *(.sdata)
   } >ram
 
