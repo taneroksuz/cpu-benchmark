@@ -33,17 +33,11 @@ SECTIONS
     .data
     {
       *(.data)
-    }
-    .sdata
-    {
       *(.sdata)
-    }
-    .sbss
-    {
-      *(.sbss)
     }
     .bss
     {
+      *(.sbss)
       *(.bss)
     }
     .heap
