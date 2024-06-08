@@ -143,18 +143,6 @@ copy_data:
   addi t2,t2,1
   blt t0,t1,copy_data
 
-  # copy bss section
-
-  la t0, __load_start_bss
-  la t1, __load_stop_bss
-
-copy_bss:
-  lb t4,0(t0)
-  sb t4,0(t2)
-  addi t0,t0,1
-  addi t2,t2,1
-  blt t0,t1,copy_bss
-
   la t0, _init
 
   jalr t0

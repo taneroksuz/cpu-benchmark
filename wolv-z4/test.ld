@@ -23,8 +23,7 @@ SECTIONS
   {
     .text
     {
-      *(.text)
-      *(.text.*)
+      *(.text*)
     }
   } >tim0 AT>ram
 
@@ -32,13 +31,11 @@ SECTIONS
   {
     .data
     {
-      *(.data)
-      *(.sdata)
-    }
-    .bss
-    {
-      *(.sbss)
-      *(.bss)
+      *(.rodata*)
+      *(.data*)
+      *(.sdata*)
+      *(.bss*)
+      *(.sbss*)
     }
     .heap
     {

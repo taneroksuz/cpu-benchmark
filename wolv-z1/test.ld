@@ -16,27 +16,16 @@ SECTIONS
 
   .text :
   {
-    *(.text)
+    *(.text*)
   } >ram
 
   .data :
   {
-    *(.data)
-  } >ram
-
-  .sdata :
-  {
-    *(.sdata)
-  } >ram
-
-  .sbss :
-  {
-    *(.sbss)
-  } >ram
-
-  .bss :
-  {
-    *(.bss)
+    *(.rodata*)
+    *(.data*)
+    *(.sdata*)
+    *(.bss*)
+    *(.sbss*)
   } >ram
 
   .heap (NOLOAD) :
