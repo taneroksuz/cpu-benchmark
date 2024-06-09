@@ -99,11 +99,12 @@ $(eval $(call compile_template,rv32uf,-march=rv32imfc_zba_zbb_zbc_zbs_zicsr_zife
 $(eval $(call compile_template,rv32mi,-march=rv32imfc_zba_zbb_zbc_zbs_zicsr_zifencei -mabi=ilp32f))
 endif
 ifeq ($(ARCH),"rv32imfdc_zba_zbb_zbc_zbs_zicsr_zifencei")
-$(eval $(call compile_template,rv32ui,-march=rv32imfdc_zba_zbb_zbc_zbs_zicsr_zifencei -mabi=ilp32f))
-$(eval $(call compile_template,rv32uc,-march=rv32imfdc_zba_zbb_zbc_zbs_zicsr_zifencei -mabi=ilp32f))
-$(eval $(call compile_template,rv32um,-march=rv32imfdc_zba_zbb_zbc_zbs_zicsr_zifencei -mabi=ilp32f))
-$(eval $(call compile_template,rv32uf,-march=rv32imfdc_zba_zbb_zbc_zbs_zicsr_zifencei -mabi=ilp32f))
-$(eval $(call compile_template,rv32mi,-march=rv32imfdc_zba_zbb_zbc_zbs_zicsr_zifencei -mabi=ilp32f))
+$(eval $(call compile_template,rv32ui,-march=rv32imfdc_zba_zbb_zbc_zbs_zicsr_zifencei -mabi=ilp32d))
+$(eval $(call compile_template,rv32uc,-march=rv32imfdc_zba_zbb_zbc_zbs_zicsr_zifencei -mabi=ilp32d))
+$(eval $(call compile_template,rv32um,-march=rv32imfdc_zba_zbb_zbc_zbs_zicsr_zifencei -mabi=ilp32d))
+$(eval $(call compile_template,rv32uf,-march=rv32imfdc_zba_zbb_zbc_zbs_zicsr_zifencei -mabi=ilp32d))
+$(eval $(call compile_template,rv32ud,-march=rv32imfdc_zba_zbb_zbc_zbs_zicsr_zifencei -mabi=ilp32d))
+$(eval $(call compile_template,rv32mi,-march=rv32imfdc_zba_zbb_zbc_zbs_zicsr_zifencei -mabi=ilp32d))
 endif
 
 tests_dump = $(addsuffix .dump, $(tests))
