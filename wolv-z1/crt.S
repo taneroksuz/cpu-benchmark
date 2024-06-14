@@ -113,7 +113,24 @@ _start:
   # initialize stack pointer
   la sp, _sp
 
-  j _init
+  # copy text section
+
+  la t0, __load_start_text
+  la t1, __load_stop_text
+
+  la t2, __tim_start
+  la t3, __tim_end
+
+copy_text:
+  lb t4,0(t0)
+  sb t4,0(t2)
+  addi t0,t0,1
+  addi t2,t2,1
+  blt t0,t1,copy_text
+
+  la t0, _init
+
+  jalr t0
 
   .align 2
 trap_entry:
@@ -154,7 +171,8 @@ trap_entry:
   csrr a0, mcause
   csrr a1, mepc
   mv a2, sp
-  jal handle_trap
+  la t0, handle_trap
+  jalr t0
   csrw mepc, a0
 
   # Remain in M-mode after eret
