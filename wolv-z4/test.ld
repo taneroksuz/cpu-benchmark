@@ -32,6 +32,7 @@ SECTIONS
     .data
     {
       *(.rodata*)
+      *(.srodata*)
       *(.data*)
       *(.sdata*)
       *(.bss*)

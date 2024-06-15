@@ -24,6 +24,7 @@ SECTIONS
     {
       *(.text*)
       *(.rodata*)
+      *(.srodata*)
       *(.data*)
       *(.sdata*)
       *(.bss*)
