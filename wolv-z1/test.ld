@@ -3,7 +3,8 @@ OUTPUT_ARCH( "riscv" )
 MEMORY
 {
   tim (rwx) : ORIGIN = 0x10000000, LENGTH = 0x100000
-  ram (rwx) : ORIGIN = 0x80000000, LENGTH = 0x100000
+  boot (rwx) : ORIGIN = 0x80000000, LENGTH = 0x1000
+  ram (rwx) : ORIGIN = 0x80001000, LENGTH = 0xFF000
   host (rwx) : ORIGIN = 0x90000000, LENGTH = 0x100
 }
 
@@ -16,7 +17,7 @@ SECTIONS
     {
       *(.text.init)
     }
-  } >ram AT>ram
+  } >boot AT>boot
 
   OVERLAY :
   {

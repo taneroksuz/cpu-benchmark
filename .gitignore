@@ -1,5 +1,5 @@
-*/riscv-gnu-toolchain/
 */benchmarks/
+*/dhrystone/
 */whetstone/
 */isa/
 */coremark/
@@ -8,3 +8,4 @@
 */newlib/
 */gcc/
 */env/
+*.tar.xz
