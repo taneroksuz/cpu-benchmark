@@ -34,3 +34,11 @@ cp $BASEDIR/../common/coremark.mak $BASEDIR/coremark/Makefile
 cd $BASEDIR/coremark
 
 make
+
+mkdir -p $BASEDIR/riscv
+mkdir -p $BASEDIR/dump
+
+cp $BASEDIR/coremark/*.riscv $BASEDIR/riscv/
+cp $BASEDIR/coremark/*.dump $BASEDIR/dump/
+
+rm -rf $BASEDIR/coremark

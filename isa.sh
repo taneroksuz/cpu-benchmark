@@ -33,6 +33,10 @@ cp -r $BASEDIR/../riscv-tests/isa/rv64ud $BASEDIR/isa/
 cp -r $BASEDIR/../riscv-tests/isa/rv64mi $BASEDIR/isa/
 cp -r $BASEDIR/../riscv-tests/isa/rv64si $BASEDIR/isa/
 
+if [ -d "$BASEDIR/env" ]; then
+  rm -rf $BASEDIR/env
+fi
+
 cp -r $BASEDIR/../riscv-tests/env $BASEDIR/
 
 cp $BASEDIR/../common/isa.mak $BASEDIR/isa/Makefile
@@ -40,3 +44,17 @@ cp $BASEDIR/../common/isa.mak $BASEDIR/isa/Makefile
 cd $BASEDIR/isa
 
 make
+
+mkdir -p $BASEDIR/riscv
+mkdir -p $BASEDIR/dump
+
+for file in $BASEDIR/isa/*.dump; do
+  directory="$(dirname $file)"
+  filename="$(basename $file .dump)"
+  cp $directory/$filename.dump $BASEDIR/riscv/$filename.riscv
+done
+
+cp $BASEDIR/isa/*.dump $BASEDIR/dump/
+
+rm -rf $BASEDIR/isa
+rm -rf $BASEDIR/env

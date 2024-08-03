@@ -42,3 +42,11 @@ cp $BASEDIR/../common/benchmarks.mak $BASEDIR/benchmarks/Makefile
 cd $BASEDIR/benchmarks
 
 make
+
+mkdir -p $BASEDIR/riscv
+mkdir -p $BASEDIR/dump
+
+cp $BASEDIR/benchmarks/*.riscv $BASEDIR/riscv/
+cp $BASEDIR/benchmarks/*.dump $BASEDIR/dump/
+
+rm -rf $BASEDIR/benchmarks

@@ -31,3 +31,11 @@ cp $BASEDIR/../common/dhrystone.mak $BASEDIR/dhrystone/Makefile
 cd $BASEDIR/dhrystone
 
 make
+
+mkdir -p $BASEDIR/riscv
+mkdir -p $BASEDIR/dump
+
+cp $BASEDIR/dhrystone/*.riscv $BASEDIR/riscv/
+cp $BASEDIR/dhrystone/*.dump $BASEDIR/dump/
+
+rm -rf $BASEDIR/dhrystone

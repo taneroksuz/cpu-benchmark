@@ -31,3 +31,11 @@ cp $BASEDIR/../common/whetstone.mak $BASEDIR/whetstone/Makefile
 cd $BASEDIR/whetstone
 
 make PORT_DIR=$BASEDIR/../common
+
+mkdir -p $BASEDIR/riscv
+mkdir -p $BASEDIR/dump
+
+cp $BASEDIR/whetstone/*.riscv $BASEDIR/riscv/
+cp $BASEDIR/whetstone/*.dump $BASEDIR/dump/
+
+rm -rf $BASEDIR/whetstone
