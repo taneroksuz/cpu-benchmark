@@ -7,29 +7,29 @@ fi
 
 mkdir -p $BASEDIR/isa
 
-cp -r $BASEDIR/../riscv-tests/isa/macros $BASEDIR/isa/
-cp -r $BASEDIR/../riscv-tests/isa/rv32ui $BASEDIR/isa/
-cp -r $BASEDIR/../riscv-tests/isa/rv32uc $BASEDIR/isa/
-cp -r $BASEDIR/../riscv-tests/isa/rv32um $BASEDIR/isa/
-cp -r $BASEDIR/../riscv-tests/isa/rv32uf $BASEDIR/isa/
-cp -r $BASEDIR/../riscv-tests/isa/rv32ud $BASEDIR/isa/
-cp -r $BASEDIR/../riscv-tests/isa/rv32mi $BASEDIR/isa/
-cp -r $BASEDIR/../riscv-tests/isa/rv32si $BASEDIR/isa/
-cp -r $BASEDIR/../riscv-tests/isa/rv64ui $BASEDIR/isa/
-cp -r $BASEDIR/../riscv-tests/isa/rv64uc $BASEDIR/isa/
-cp -r $BASEDIR/../riscv-tests/isa/rv64um $BASEDIR/isa/
-cp -r $BASEDIR/../riscv-tests/isa/rv64uf $BASEDIR/isa/
-cp -r $BASEDIR/../riscv-tests/isa/rv64ud $BASEDIR/isa/
-cp -r $BASEDIR/../riscv-tests/isa/rv64mi $BASEDIR/isa/
-cp -r $BASEDIR/../riscv-tests/isa/rv64si $BASEDIR/isa/
+cp -r $BASEDIR/wolv-benchmark/riscv-tests/isa/macros $BASEDIR/isa/
+cp -r $BASEDIR/wolv-benchmark/riscv-tests/isa/rv32ui $BASEDIR/isa/
+cp -r $BASEDIR/wolv-benchmark/riscv-tests/isa/rv32uc $BASEDIR/isa/
+cp -r $BASEDIR/wolv-benchmark/riscv-tests/isa/rv32um $BASEDIR/isa/
+cp -r $BASEDIR/wolv-benchmark/riscv-tests/isa/rv32uf $BASEDIR/isa/
+cp -r $BASEDIR/wolv-benchmark/riscv-tests/isa/rv32ud $BASEDIR/isa/
+cp -r $BASEDIR/wolv-benchmark/riscv-tests/isa/rv32mi $BASEDIR/isa/
+cp -r $BASEDIR/wolv-benchmark/riscv-tests/isa/rv32si $BASEDIR/isa/
+cp -r $BASEDIR/wolv-benchmark/riscv-tests/isa/rv64ui $BASEDIR/isa/
+cp -r $BASEDIR/wolv-benchmark/riscv-tests/isa/rv64uc $BASEDIR/isa/
+cp -r $BASEDIR/wolv-benchmark/riscv-tests/isa/rv64um $BASEDIR/isa/
+cp -r $BASEDIR/wolv-benchmark/riscv-tests/isa/rv64uf $BASEDIR/isa/
+cp -r $BASEDIR/wolv-benchmark/riscv-tests/isa/rv64ud $BASEDIR/isa/
+cp -r $BASEDIR/wolv-benchmark/riscv-tests/isa/rv64mi $BASEDIR/isa/
+cp -r $BASEDIR/wolv-benchmark/riscv-tests/isa/rv64si $BASEDIR/isa/
 
 if [ -d "$BASEDIR/env" ]; then
   rm -rf $BASEDIR/env
 fi
 
-cp -r $BASEDIR/../riscv-tests/env $BASEDIR/
+cp -r $BASEDIR/wolv-benchmark/riscv-tests/env $BASEDIR/
 
-cp $BASEDIR/../common/isa.mak $BASEDIR/isa/Makefile
+cp $BASEDIR/wolv-benchmark/common/isa.mak $BASEDIR/isa/Makefile
 
 cd $BASEDIR/isa
 
