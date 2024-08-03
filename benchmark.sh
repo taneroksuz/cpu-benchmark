@@ -1,16 +1,6 @@
 #!/bin/bash
 set -e
 
-if [ -z "$1" ]; then
-  echo "example usage: ./benchmark.sh wolv-z0"
-  exit 1
-fi
-
-cd $1
-
-export BASEDIR=$(pwd)
-export $(grep -v '^#' $BASEDIR/.env | xargs -d '\n')
-
 if [ -d "$BASEDIR/benchmarks" ]; then
   rm -rf $BASEDIR/benchmarks
 fi

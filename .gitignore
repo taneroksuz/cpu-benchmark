@@ -5,9 +5,5 @@
 */coremark/
 */dump/
 */riscv/
-*/binutils/
-*/combined/
-*/newlib/
-*/gcc/
 */env/
 *.tar.xz
