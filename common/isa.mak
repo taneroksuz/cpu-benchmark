@@ -6,26 +6,26 @@ XLEN ?= 32
 
 src_dir := .
 
-ifeq ($(ARCH),"rv32imc_zicsr_zifencei")
+ifeq ($(ARCH),rv32imc_zicsr_zifencei)
 include $(src_dir)/rv32ui/Makefrag
 include $(src_dir)/rv32um/Makefrag
 include $(src_dir)/rv32uc/Makefrag
 include $(src_dir)/rv32mi/Makefrag
 endif
-ifeq ($(ARCH),"rv32imc_zba_zbb_zbc_zbs_zicsr_zifencei")
+ifeq ($(ARCH),rv32imc_zba_zbb_zbc_zbs_zicsr_zifencei)
 include $(src_dir)/rv32ui/Makefrag
 include $(src_dir)/rv32um/Makefrag
 include $(src_dir)/rv32uc/Makefrag
 include $(src_dir)/rv32mi/Makefrag
 endif
-ifeq ($(ARCH),"rv32imfc_zba_zbb_zbc_zbs_zicsr_zifencei")
+ifeq ($(ARCH),rv32imfc_zba_zbb_zbc_zbs_zicsr_zifencei)
 include $(src_dir)/rv32ui/Makefrag
 include $(src_dir)/rv32um/Makefrag
 include $(src_dir)/rv32uc/Makefrag
 include $(src_dir)/rv32uf/Makefrag
 include $(src_dir)/rv32mi/Makefrag
 endif
-ifeq ($(ARCH),"rv32imfdc_zba_zbb_zbc_zbs_zicsr_zifencei")
+ifeq ($(ARCH),rv32imfdc_zba_zbb_zbc_zbs_zicsr_zifencei)
 include $(src_dir)/rv32ui/Makefrag
 include $(src_dir)/rv32um/Makefrag
 include $(src_dir)/rv32uc/Makefrag
@@ -43,7 +43,6 @@ default: all
 RISCV_GCC ?= $(RISCV)bin/riscv32-unknown-elf-gcc
 RISCV_GCC_OPTS ?= -static -mcmodel=medany -fvisibility=hidden -nostdlib -nostartfiles
 RISCV_OBJDUMP ?= $(RISCV)bin/riscv32-unknown-elf-objdump --disassemble-all --disassemble-zeroes --section=.text --section=.text.startup --section=.text.init --section=.data
-RISCV_SIM ?= spike
 
 vpath %.S $(src_dir)
 
@@ -73,26 +72,26 @@ endif
 
 endef
 
-ifeq ($(ARCH),"rv32imc_zicsr_zifencei")
+ifeq ($(ARCH),rv32imc_zicsr_zifencei)
 $(eval $(call compile_template,rv32ui,-march=rv32imc_zicsr_zifencei -mabi=ilp32))
 $(eval $(call compile_template,rv32uc,-march=rv32imc_zicsr_zifencei -mabi=ilp32))
 $(eval $(call compile_template,rv32um,-march=rv32imc_zicsr_zifencei -mabi=ilp32))
 $(eval $(call compile_template,rv32mi,-march=rv32imc_zicsr_zifencei -mabi=ilp32))
 endif
-ifeq ($(ARCH),"rv32imc_zba_zbb_zbc_zbs_zicsr_zifencei")
+ifeq ($(ARCH),rv32imc_zba_zbb_zbc_zbs_zicsr_zifencei)
 $(eval $(call compile_template,rv32ui,-march=rv32imc_zba_zbb_zbc_zbs_zicsr_zifencei -mabi=ilp32))
 $(eval $(call compile_template,rv32uc,-march=rv32imc_zba_zbb_zbc_zbs_zicsr_zifencei -mabi=ilp32))
 $(eval $(call compile_template,rv32um,-march=rv32imc_zba_zbb_zbc_zbs_zicsr_zifencei -mabi=ilp32))
 $(eval $(call compile_template,rv32mi,-march=rv32imc_zba_zbb_zbc_zbs_zicsr_zifencei -mabi=ilp32))
 endif
-ifeq ($(ARCH),"rv32imfc_zba_zbb_zbc_zbs_zicsr_zifencei")
+ifeq ($(ARCH),rv32imfc_zba_zbb_zbc_zbs_zicsr_zifencei)
 $(eval $(call compile_template,rv32ui,-march=rv32imfc_zba_zbb_zbc_zbs_zicsr_zifencei -mabi=ilp32f))
 $(eval $(call compile_template,rv32uc,-march=rv32imfc_zba_zbb_zbc_zbs_zicsr_zifencei -mabi=ilp32f))
 $(eval $(call compile_template,rv32um,-march=rv32imfc_zba_zbb_zbc_zbs_zicsr_zifencei -mabi=ilp32f))
 $(eval $(call compile_template,rv32uf,-march=rv32imfc_zba_zbb_zbc_zbs_zicsr_zifencei -mabi=ilp32f))
 $(eval $(call compile_template,rv32mi,-march=rv32imfc_zba_zbb_zbc_zbs_zicsr_zifencei -mabi=ilp32f))
 endif
-ifeq ($(ARCH),"rv32imfdc_zba_zbb_zbc_zbs_zicsr_zifencei")
+ifeq ($(ARCH),rv32imfdc_zba_zbb_zbc_zbs_zicsr_zifencei)
 $(eval $(call compile_template,rv32ui,-march=rv32imfdc_zba_zbb_zbc_zbs_zicsr_zifencei -mabi=ilp32d))
 $(eval $(call compile_template,rv32uc,-march=rv32imfdc_zba_zbb_zbc_zbs_zicsr_zifencei -mabi=ilp32d))
 $(eval $(call compile_template,rv32um,-march=rv32imfdc_zba_zbb_zbc_zbs_zicsr_zifencei -mabi=ilp32d))
@@ -102,12 +101,8 @@ $(eval $(call compile_template,rv32mi,-march=rv32imfdc_zba_zbb_zbc_zbs_zicsr_zif
 endif
 
 tests_dump = $(addsuffix .dump, $(tests))
-tests_hex = $(addsuffix .hex, $(tests))
-tests_out = $(addsuffix .out, $(filter rv32%,$(tests)))
 
-run: $(tests_out)
-
-junk += $(tests) $(tests_dump) $(tests_hex) $(tests_out)
+junk += $(tests) $(tests_dump)
 
 #------------------------------------------------------------
 # Default

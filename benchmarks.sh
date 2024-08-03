@@ -5,9 +5,8 @@ if [ -d "$BASEDIR/benchmarks" ]; then
   rm -rf $BASEDIR/benchmarks
 fi
 
-mkdir -p $BASEDIR/benchmarks
+mkdir -p $BASEDIR/benchmarks/common
 
-cp -r $BASEDIR/wolv-benchmark/riscv-tests/benchmarks/common $BASEDIR/benchmarks/
 cp -r $BASEDIR/wolv-benchmark/riscv-tests/benchmarks/dhrystone $BASEDIR/benchmarks/
 cp -r $BASEDIR/wolv-benchmark/riscv-tests/benchmarks/median $BASEDIR/benchmarks/
 cp -r $BASEDIR/wolv-benchmark/riscv-tests/benchmarks/memcpy $BASEDIR/benchmarks/
@@ -17,8 +16,6 @@ cp -r $BASEDIR/wolv-benchmark/riscv-tests/benchmarks/rsort $BASEDIR/benchmarks/
 cp -r $BASEDIR/wolv-benchmark/riscv-tests/benchmarks/spmv $BASEDIR/benchmarks/
 cp -r $BASEDIR/wolv-benchmark/riscv-tests/benchmarks/towers $BASEDIR/benchmarks/
 cp -r $BASEDIR/wolv-benchmark/riscv-tests/benchmarks/Makefile $BASEDIR/benchmarks/
-
-cp -r $BASEDIR/wolv-benchmark/riscv-tests/env $BASEDIR/
 
 cp $BASEDIR/ld/startup.S $BASEDIR/benchmarks/common/
 cp $BASEDIR/ld/linker.ld $BASEDIR/benchmarks/common/
