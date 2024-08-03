@@ -40,9 +40,9 @@ default: all
 # Build rules
 #--------------------------------------------------------------------
 
-RISCV_GCC ?= $(RISCV_PREFIX)gcc
+RISCV_GCC ?= $(RISCV)bin/riscv32-unknown-elf-gcc
 RISCV_GCC_OPTS ?= -static -mcmodel=medany -fvisibility=hidden -nostdlib -nostartfiles
-RISCV_OBJDUMP ?= $(RISCV_PREFIX)objdump --disassemble-all --disassemble-zeroes --section=.text --section=.text.startup --section=.text.init --section=.data
+RISCV_OBJDUMP ?= $(RISCV)bin/riscv32-unknown-elf-objdump --disassemble-all --disassemble-zeroes --section=.text --section=.text.startup --section=.text.init --section=.data
 RISCV_SIM ?= spike
 
 vpath %.S $(src_dir)
@@ -52,12 +52,6 @@ vpath %.S $(src_dir)
 
 %.dump: %
 	$(RISCV_OBJDUMP) $< > $@
-
-%.out: %
-	$(RISCV_SIM) --isa=rv64gc_zfh_zicboz_svnapot_zicntr_zba_zbb_zbc_zbs --misaligned $< 2> $@
-
-%.out32: %
-	$(RISCV_SIM) --isa=rv32gc_zfh_zicboz_svnapot_zicntr_zba_zbb_zbc_zbs --misaligned $< 2> $@
 
 define compile_template
 
