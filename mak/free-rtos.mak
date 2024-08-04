@@ -78,8 +78,8 @@ $(FREERTOS_LIBRARY): $(PORT_ASM_OBJ) $(PORT_OBJ) $(RTOS_OBJ)
 $(POSIX_LIBRARY): $(POSIX_OBJ)
 	$(AR) rcs $@ $(POSIX_OBJ)
 
-%.elf: Makefile
-	$(CC) -o $@ $(@:.elf=.c) $(CFLAGS) $(LDFLAGS) $(LIBS)
+%.riscv: Makefile
+	$(CC) -o $@ $(@:.riscv=.c) $(CFLAGS) $(LDFLAGS) $(LIBS)
 	$(OBJDUMP) -d $@ > $@.dump
 
 clean:
