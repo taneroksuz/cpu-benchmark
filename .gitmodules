@@ -5,3 +5,9 @@
 [submodule "coremark"]
 	path = coremark
 	url = https://github.com/eembc/coremark.git
+[submodule "free-rtos-kernel"]
+	path = free-rtos-kernel
+	url = https://github.com/FreeRTOS/FreeRTOS-Kernel.git
+[submodule "free-rtos-posix"]
+	path = free-rtos-posix
+	url = https://github.com/FreeRTOS/Lab-Project-FreeRTOS-POSIX.git
