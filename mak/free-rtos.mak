@@ -2,7 +2,7 @@ default: all
 
 ROOTDIR             = .
 
-RISCV_PREFIX        = $(RISCV)bin/riscv32-unknown-elf-
+RISCV_PREFIX        = $(RISCV)/bin/riscv32-unknown-elf-
 FREERTOS_SOURCE_DIR = $(ROOTDIR)/free-rtos-kernel
 FREERTOS_POSIX_DIR  = $(ROOTDIR)/free-rtos-posix
 
@@ -12,7 +12,7 @@ OBJDUMP             = $(RISCV_PREFIX)objdump
 OBJCOPY             = $(RISCV_PREFIX)objcopy
 READELF             = $(RISCV_PREFIX)readelf
 
-RISCV_GCC_OPTS      = -mcmodel=medany -nostartfiles -nostdlib
+RISCV_GCC_OPTS      = -mcmodel=medany -nostartfiles -nostdlib -Wno-maybe-uninitialized -Wno-address
 
 FREERTOS_SRC = \
     $(FREERTOS_SOURCE_DIR)/croutine.c \
@@ -37,13 +37,9 @@ FREERTOS_POSIX_SRC = \
     $(FREERTOS_POSIX_DIR)/FreeRTOS-Plus-POSIX/source/FreeRTOS_POSIX_unistd.c \
     $(FREERTOS_POSIX_DIR)/FreeRTOS-Plus-POSIX/source/FreeRTOS_POSIX_utils.c
 
-PORT_SRC = $(FREERTOS_SOURCE_DIR)/portable/GCC/RISC-V/port.c \
-           Common/port.c \
-           Common/syscall.c \
-           Common/printf.c \
+PORT_SRC = $(FREERTOS_SOURCE_DIR)/portable/GCC/RISC-V/port.c
 
-PORT_ASM = $(FREERTOS_SOURCE_DIR)/portable/GCC/RISC-V/portASM.S \
-           Common/crt0.S
+PORT_ASM = $(FREERTOS_SOURCE_DIR)/portable/GCC/RISC-V/portASM.S
 
 RTOS_OBJ = $(FREERTOS_SRC:.c=.o)
 POSIX_OBJ= $(FREERTOS_POSIX_SRC:.c=.o)
@@ -60,9 +56,7 @@ INCLUDES = \
     -I$(FREERTOS_POSIX_DIR)/include/private \
     -I$(FREERTOS_POSIX_DIR)/FreeRTOS-Plus-POSIX/include \
     -I$(FREERTOS_POSIX_DIR)/FreeRTOS-Plus-POSIX/include/portable \
-    -I./Common \
-    -I./conf \
-    -I./examples
+    -I./conf
 
 CFLAGS   = -O2 -g -Wall $(INCLUDES) $(RISCV_GCC_OPTS)
 LDFLAGS  = -L. -T Common/link.ld $(RISCV_GCC_OPTS)
@@ -86,7 +80,7 @@ $(POSIX_LIBRARY): $(POSIX_OBJ)
 
 %.elf: Makefile
 	$(CC) -o $@ $(@:.elf=.c) $(CFLAGS) $(LDFLAGS) $(LIBS)
-	$(OBJDUMP) -d $@ > $@.dis
+	$(OBJDUMP) -d $@ > $@.dump
 
 clean:
 	$(RM) -f $(OBJS) $(FREERTOS_LIBRARY) $(POSIX_LIBRARY)

@@ -29,7 +29,7 @@ fi
 
 cp -r $BASEDIR/wolv-benchmark/riscv-tests/env $BASEDIR/
 
-cp $BASEDIR/wolv-benchmark/common/isa.mak $BASEDIR/isa/Makefile
+cp $BASEDIR/wolv-benchmark/mak/isa.mak $BASEDIR/isa/Makefile
 
 cd $BASEDIR/isa
 

@@ -16,7 +16,8 @@ cp $BASEDIR/wolv-benchmark/common/util.h $BASEDIR/dhrystone/common/
 cp $BASEDIR/wolv-benchmark/common/encoding.h $BASEDIR/dhrystone/common/
 cp $BASEDIR/wolv-benchmark/common/strcmp.S $BASEDIR/dhrystone/common/
 cp $BASEDIR/wolv-benchmark/common/syscalls.c $BASEDIR/dhrystone/common/
-cp $BASEDIR/wolv-benchmark/common/dhrystone.mak $BASEDIR/dhrystone/Makefile
+
+cp $BASEDIR/wolv-benchmark/mak/dhrystone.mak $BASEDIR/dhrystone/Makefile
 
 cd $BASEDIR/dhrystone
 

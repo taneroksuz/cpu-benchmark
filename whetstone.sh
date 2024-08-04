@@ -16,7 +16,8 @@ cp $BASEDIR/wolv-benchmark/common/util.h $BASEDIR/whetstone/common/
 cp $BASEDIR/wolv-benchmark/common/encoding.h $BASEDIR/whetstone/common/
 cp $BASEDIR/wolv-benchmark/common/strcmp.S $BASEDIR/whetstone/common/
 cp $BASEDIR/wolv-benchmark/common/syscalls.c $BASEDIR/whetstone/common/
-cp $BASEDIR/wolv-benchmark/common/whetstone.mak $BASEDIR/whetstone/Makefile
+
+cp $BASEDIR/wolv-benchmark/mak/whetstone.mak $BASEDIR/whetstone/Makefile
 
 cd $BASEDIR/whetstone
 

@@ -19,7 +19,8 @@ cp $BASEDIR/wolv-benchmark/common/syscalls.c $BASEDIR/coremark/common/
 cp $BASEDIR/wolv-benchmark/common/ee_printf.c $BASEDIR/coremark/common/
 cp $BASEDIR/wolv-benchmark/common/core_portme.c $BASEDIR/coremark/common/
 cp $BASEDIR/wolv-benchmark/common/core_portme.h $BASEDIR/coremark/common/
-cp $BASEDIR/wolv-benchmark/common/coremark.mak $BASEDIR/coremark/Makefile
+
+cp $BASEDIR/wolv-benchmark/mak/coremark.mak $BASEDIR/coremark/Makefile
 
 cd $BASEDIR/coremark
 

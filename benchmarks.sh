@@ -24,7 +24,8 @@ cp $BASEDIR/wolv-benchmark/common/util.h $BASEDIR/benchmarks/common/
 cp $BASEDIR/wolv-benchmark/common/encoding.h $BASEDIR/benchmarks/common/
 cp $BASEDIR/wolv-benchmark/common/strcmp.S $BASEDIR/benchmarks/common/
 cp $BASEDIR/wolv-benchmark/common/syscalls.c $BASEDIR/benchmarks/common/
-cp $BASEDIR/wolv-benchmark/common/benchmarks.mak $BASEDIR/benchmarks/Makefile
+
+cp $BASEDIR/wolv-benchmark/mak/benchmarks.mak $BASEDIR/benchmarks/Makefile
 
 cd $BASEDIR/benchmarks
 
