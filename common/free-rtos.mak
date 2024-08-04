@@ -1,3 +1,16 @@
+RISCV_PREFIX        = $(RISCV)bin/riscv32-unknown-elf-
+ROOTDIR             = $(shell cd .. && pwd)
+FREERTOS_SOURCE_DIR = $(ROOTDIR)/FreeRTOS-Kernel
+FREERTOS_POSIX_DIR  = $(ROOTDIR)/FreeRTOS-POSIX
+
+AR                  = $(RISCV_PREFIX)ar
+CC                  = $(RISCV_PREFIX)gcc
+OBJDUMP             = $(RISCV_PREFIX)objdump
+OBJCOPY             = $(RISCV_PREFIX)objcopy
+READELF             = $(RISCV_PREFIX)readelf
+
+RISCV_GCC_OPTS      = -mcmodel=medany -nostartfiles -nostdlib
+
 FREERTOS_SRC = \
     $(FREERTOS_SOURCE_DIR)/croutine.c \
     $(FREERTOS_SOURCE_DIR)/list.c \

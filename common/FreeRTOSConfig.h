@@ -1,8 +1,0 @@
-#ifndef FREERTOS_CONFIG_H
-#define FREERTOS_CONFIG_H
-
-#define configMTIME_BASE_ADDRESS        ( 0x2000BFF8UL )
-#define configMTIMECMP_BASE_ADDRESS     ( 0x20004000UL )
-
-#endif /* FREERTOS_CONFIG_H */
-
