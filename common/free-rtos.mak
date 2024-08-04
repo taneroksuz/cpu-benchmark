@@ -1,7 +1,10 @@
+default: all
+
+ROOTDIR             = .
+
 RISCV_PREFIX        = $(RISCV)bin/riscv32-unknown-elf-
-ROOTDIR             = $(shell cd .. && pwd)
-FREERTOS_SOURCE_DIR = $(ROOTDIR)/FreeRTOS-Kernel
-FREERTOS_POSIX_DIR  = $(ROOTDIR)/FreeRTOS-POSIX
+FREERTOS_SOURCE_DIR = $(ROOTDIR)/free-rtos-kernel
+FREERTOS_POSIX_DIR  = $(ROOTDIR)/free-rtos-posix
 
 AR                  = $(RISCV_PREFIX)ar
 CC                  = $(RISCV_PREFIX)gcc
@@ -42,20 +45,17 @@ PORT_SRC = $(FREERTOS_SOURCE_DIR)/portable/GCC/RISC-V/port.c \
 PORT_ASM = $(FREERTOS_SOURCE_DIR)/portable/GCC/RISC-V/portASM.S \
            Common/crt0.S
 
-DEMO_SRC = $(wildcard examples/*.c)
-
 RTOS_OBJ = $(FREERTOS_SRC:.c=.o)
 POSIX_OBJ= $(FREERTOS_POSIX_SRC:.c=.o)
 PORT_OBJ = $(PORT_SRC:.c=.o)
 PORT_ASM_OBJ = $(PORT_ASM:.S=.o)
-DEMO_OBJ = $(DEMO_SRC:.c=.o)
 OBJS = $(PORT_ASM_OBJ) $(PORT_OBJ) $(RTOS_OBJ) $(POSIX_OBJ)
 FREERTOS_LIBRARY = libfreertos.a
 POSIX_LIBRARY = libpthread.a
 
 INCLUDES = \
     -I$(FREERTOS_SOURCE_DIR)/include \
-	-I$(FREERTOS_SOURCE_DIR)/portable/GCC/RISC-V \
+    -I$(FREERTOS_SOURCE_DIR)/portable/GCC/RISC-V \
     -I$(FREERTOS_POSIX_DIR)/include \
     -I$(FREERTOS_POSIX_DIR)/include/private \
     -I$(FREERTOS_POSIX_DIR)/FreeRTOS-Plus-POSIX/include \
@@ -67,11 +67,10 @@ INCLUDES = \
 CFLAGS   = -O2 -g -Wall $(INCLUDES) $(RISCV_GCC_OPTS)
 LDFLAGS  = -L. -T Common/link.ld $(RISCV_GCC_OPTS)
 LIBS     = -lfreertos -lpthread -lfreertos -lm -lc -lgcc
-PROG	 = $(DEMO_SRC:.c=.elf)
 
-.PHONY: hartstone
+.PHONY: clean
 
-all: $(FREERTOS_LIBRARY) $(POSIX_LIBRARY) $(PROG) hartstone
+all: $(FREERTOS_LIBRARY) $(POSIX_LIBRARY)
 
 %.o: %.c
 	$(CC) -c $(CFLAGS) -o $@ $<
@@ -89,9 +88,5 @@ $(POSIX_LIBRARY): $(POSIX_OBJ)
 	$(CC) -o $@ $(@:.elf=.c) $(CFLAGS) $(LDFLAGS) $(LIBS)
 	$(OBJDUMP) -d $@ > $@.dis
 
-hartstone: Makefile
-	$(MAKE) -C hartstone
-
 clean:
-	$(RM) -f $(OBJS) $(FREERTOS_LIBRARY) $(POSIX_LIBRARY) examples/*.elf examples/*.elf.dis
-	$(MAKE) -C hartstone clean
+	$(RM) -f $(OBJS) $(FREERTOS_LIBRARY) $(POSIX_LIBRARY)

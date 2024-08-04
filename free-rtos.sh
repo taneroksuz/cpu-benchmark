@@ -5,9 +5,12 @@ if [ -d "$BASEDIR/free-rtos" ]; then
   rm -rf $BASEDIR/free-rtos
 fi
 
-cp -r $BASEDIR/wolv-benchmark/free-rtos $BASEDIR/
+mkdir -p $BASEDIR/free-rtos/
 
-cd $BASEDIR/free-rtos
+cp -r $BASEDIR/wolv-benchmark/free-rtos-kernel $BASEDIR/free-rtos/
+cp -r $BASEDIR/wolv-benchmark/free-rtos-posix $BASEDIR/free-rtos/
+
+cp $BASEDIR/wolv-benchmark/common/free-rtos.mak $BASEDIR/free-rtos/Makefile
 
 make
 
