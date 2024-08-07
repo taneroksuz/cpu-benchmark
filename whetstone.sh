@@ -7,21 +7,21 @@ fi
 
 mkdir -p $BASEDIR/whetstone/common
 
-cp $BASEDIR/wolv-benchmark/whetstone/whetstone.c $BASEDIR/whetstone/
+cp $BASEDIR/$BENCHMARK/whetstone/whetstone.c $BASEDIR/whetstone/
 
 cp $BASEDIR/ld/startup.S $BASEDIR/whetstone/common/
 cp $BASEDIR/ld/linker.ld $BASEDIR/whetstone/common/
 
-cp $BASEDIR/wolv-benchmark/common/util.h $BASEDIR/whetstone/common/
-cp $BASEDIR/wolv-benchmark/common/encoding.h $BASEDIR/whetstone/common/
-cp $BASEDIR/wolv-benchmark/common/strcmp.S $BASEDIR/whetstone/common/
-cp $BASEDIR/wolv-benchmark/common/syscalls.c $BASEDIR/whetstone/common/
+cp $BASEDIR/$BENCHMARK/common/util.h $BASEDIR/whetstone/common/
+cp $BASEDIR/$BENCHMARK/common/encoding.h $BASEDIR/whetstone/common/
+cp $BASEDIR/$BENCHMARK/common/strcmp.S $BASEDIR/whetstone/common/
+cp $BASEDIR/$BENCHMARK/common/syscalls.c $BASEDIR/whetstone/common/
 
-cp $BASEDIR/wolv-benchmark/mak/whetstone.mak $BASEDIR/whetstone/Makefile
+cp $BASEDIR/$BENCHMARK/mak/whetstone.mak $BASEDIR/whetstone/Makefile
 
 cd $BASEDIR/whetstone
 
-make PORT_DIR=$BASEDIR/wolv-benchmark/common
+make PORT_DIR=$BASEDIR/$BENCHMARK/common
 
 mkdir -p $BASEDIR/riscv
 mkdir -p $BASEDIR/dump

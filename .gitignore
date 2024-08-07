@@ -1,9 +1,0 @@
-*/benchmarks/
-*/dhrystone/
-*/whetstone/
-*/isa/
-*/coremark/
-*/dump/
-*/riscv/
-*/env/
-*.tar.xz

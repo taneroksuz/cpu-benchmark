@@ -5,19 +5,19 @@ if [ -d "$BASEDIR/dhrystone" ]; then
   rm -rf $BASEDIR/dhrystone
 fi
 
-cp -r $BASEDIR/wolv-benchmark/dhrystone $BASEDIR/
+cp -r $BASEDIR/$BENCHMARK/dhrystone $BASEDIR/
 
 mkdir -p $BASEDIR/dhrystone/common/
 
 cp $BASEDIR/ld/startup.S $BASEDIR/dhrystone/common/
 cp $BASEDIR/ld/linker.ld $BASEDIR/dhrystone/common/
 
-cp $BASEDIR/wolv-benchmark/common/util.h $BASEDIR/dhrystone/common/
-cp $BASEDIR/wolv-benchmark/common/encoding.h $BASEDIR/dhrystone/common/
-cp $BASEDIR/wolv-benchmark/common/strcmp.S $BASEDIR/dhrystone/common/
-cp $BASEDIR/wolv-benchmark/common/syscalls.c $BASEDIR/dhrystone/common/
+cp $BASEDIR/$BENCHMARK/common/util.h $BASEDIR/dhrystone/common/
+cp $BASEDIR/$BENCHMARK/common/encoding.h $BASEDIR/dhrystone/common/
+cp $BASEDIR/$BENCHMARK/common/strcmp.S $BASEDIR/dhrystone/common/
+cp $BASEDIR/$BENCHMARK/common/syscalls.c $BASEDIR/dhrystone/common/
 
-cp $BASEDIR/wolv-benchmark/mak/dhrystone.mak $BASEDIR/dhrystone/Makefile
+cp $BASEDIR/$BENCHMARK/mak/dhrystone.mak $BASEDIR/dhrystone/Makefile
 
 cd $BASEDIR/dhrystone
 
