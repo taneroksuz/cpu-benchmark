@@ -12,6 +12,7 @@ cp -r $BASEDIR/$BENCHMARK/free-rtos-posix $BASEDIR/free-rtos/
 
 cp $BASEDIR/$BENCHMARK/free-rtos/* $BASEDIR/free-rtos/
 
+cp $BASEDIR/ld/crt.S $BASEDIR/free-rtos/
 cp $BASEDIR/ld/linker.ld $BASEDIR/free-rtos/
 
 cp $BASEDIR/$BENCHMARK/mak/free-rtos.mak $BASEDIR/free-rtos/Makefile
