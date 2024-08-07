@@ -37,14 +37,20 @@ FREERTOS_POSIX_SRC = \
     $(FREERTOS_POSIX_DIR)/FreeRTOS-Plus-POSIX/source/FreeRTOS_POSIX_unistd.c \
     $(FREERTOS_POSIX_DIR)/FreeRTOS-Plus-POSIX/source/FreeRTOS_POSIX_utils.c
 
-PORT_SRC = $(FREERTOS_SOURCE_DIR)/portable/GCC/RISC-V/port.c
+PORT_SRC = $(FREERTOS_SOURCE_DIR)/portable/GCC/RISC-V/port.c \
+           ./port.c \
+           ./syscall.c \
 
-PORT_ASM = $(FREERTOS_SOURCE_DIR)/portable/GCC/RISC-V/portASM.S
+PORT_ASM = $(FREERTOS_SOURCE_DIR)/portable/GCC/RISC-V/portASM.S \
+           ./startup.S
+
+MAIN_SRC = free-rtos.c
 
 RTOS_OBJ = $(FREERTOS_SRC:.c=.o)
 POSIX_OBJ= $(FREERTOS_POSIX_SRC:.c=.o)
 PORT_OBJ = $(PORT_SRC:.c=.o)
 PORT_ASM_OBJ = $(PORT_ASM:.S=.o)
+MAIN_OBJ = $(MAIN_SRC:.c=.riscv)
 OBJS = $(PORT_ASM_OBJ) $(PORT_OBJ) $(RTOS_OBJ) $(POSIX_OBJ)
 FREERTOS_LIBRARY = libfreertos.a
 POSIX_LIBRARY = libpthread.a
@@ -56,15 +62,15 @@ INCLUDES = \
     -I$(FREERTOS_POSIX_DIR)/include/private \
     -I$(FREERTOS_POSIX_DIR)/FreeRTOS-Plus-POSIX/include \
     -I$(FREERTOS_POSIX_DIR)/FreeRTOS-Plus-POSIX/include/portable \
-    -I./conf
+    -I./
 
 CFLAGS   = -O2 -g -Wall $(INCLUDES) $(RISCV_GCC_OPTS)
-LDFLAGS  = -L. -T Common/link.ld $(RISCV_GCC_OPTS)
-LIBS     = -lfreertos -lpthread -lfreertos -lm -lc -lgcc
+LDFLAGS  = -L. -T ./linker.ld $(RISCV_GCC_OPTS)
+LIBS     = -lfreertos -lpthread -lm -lc -lgcc
 
 .PHONY: clean
 
-all: $(FREERTOS_LIBRARY) $(POSIX_LIBRARY)
+all: $(FREERTOS_LIBRARY) $(POSIX_LIBRARY) $(MAIN_OBJ)
 
 %.o: %.c
 	$(CC) -c $(CFLAGS) -o $@ $<
@@ -78,9 +84,9 @@ $(FREERTOS_LIBRARY): $(PORT_ASM_OBJ) $(PORT_OBJ) $(RTOS_OBJ)
 $(POSIX_LIBRARY): $(POSIX_OBJ)
 	$(AR) rcs $@ $(POSIX_OBJ)
 
-%.riscv: Makefile
-	$(CC) -o $@ $(@:.riscv=.c) $(CFLAGS) $(LDFLAGS) $(LIBS)
-	$(OBJDUMP) -d $@ > $@.dump
+%.riscv: %.c
+	$(CC) -o $@ $< $(CFLAGS) $(LDFLAGS) $(LIBS)
+	$(OBJDUMP) -d $@ > $(@:.riscv=.dump)
 
 clean:
 	$(RM) -f $(OBJS) $(FREERTOS_LIBRARY) $(POSIX_LIBRARY)
