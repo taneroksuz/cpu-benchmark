@@ -12,9 +12,6 @@ cp -r $BASEDIR/$BENCHMARK/free-rtos-posix $BASEDIR/free-rtos/
 
 cp $BASEDIR/$BENCHMARK/free-rtos/* $BASEDIR/free-rtos/
 
-cp $BASEDIR/$BENCHMARK/common/encoding.h $BASEDIR/free-rtos/
-
-cp $BASEDIR/ld/startup.S $BASEDIR/free-rtos/
 cp $BASEDIR/ld/linker.ld $BASEDIR/free-rtos/
 
 cp $BASEDIR/$BENCHMARK/mak/free-rtos.mak $BASEDIR/free-rtos/Makefile

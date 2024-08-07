@@ -13,6 +13,7 @@ OBJCOPY             = $(RISCV_PREFIX)objcopy
 READELF             = $(RISCV_PREFIX)readelf
 
 RISCV_GCC_OPTS      = -mcmodel=medany -nostartfiles -nostdlib -Wno-maybe-uninitialized -Wno-address
+RISCV_OBJDUMP_OPTS  = --disassemble-all --disassemble-zeroes --section=.text --section=.text.startup --section=.text.init --section=.data
 
 FREERTOS_SRC = \
     $(FREERTOS_SOURCE_DIR)/croutine.c \
@@ -42,7 +43,7 @@ PORT_SRC = $(FREERTOS_SOURCE_DIR)/portable/GCC/RISC-V/port.c \
            ./syscall.c \
 
 PORT_ASM = $(FREERTOS_SOURCE_DIR)/portable/GCC/RISC-V/portASM.S \
-           ./startup.S
+           ./crt.S
 
 MAIN_SRC = free-rtos.c
 
@@ -86,7 +87,7 @@ $(POSIX_LIBRARY): $(POSIX_OBJ)
 
 %.riscv: %.c
 	$(CC) -o $@ $< $(CFLAGS) $(LDFLAGS) $(LIBS)
-	$(OBJDUMP) -d $@ > $(@:.riscv=.dump)
+	$(OBJDUMP) $(RISCV_OBJDUMP_OPTS) $@ > $(@:.riscv=.dump)
 
 clean:
 	$(RM) -f $(OBJS) $(FREERTOS_LIBRARY) $(POSIX_LIBRARY)
