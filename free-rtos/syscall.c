@@ -5,7 +5,7 @@
 #include <errno.h>
 
 #define HAVE_SYSCALL        0
-#define HAVE_TOHOST         1
+#define HAVE_TOHOST         0
 
 #define MEMIO_PUTC          0x01000000
 #define MEMIO_GETC          0x01000000
@@ -73,6 +73,28 @@ __internal_syscall(
     *(volatile int32_t*)MEMIO_TOHOST = (uintptr_t) htif_mem;
 
     return htif_mem[0];
+}
+#endif
+
+#if !HAVE_SYSCALL && !HAVE_TOHOST
+int _putchar(char ch) {
+    *(volatile char*)MEMIO_PUTC = (char)ch;
+    return 0;
+}
+
+int _getchar(void) {
+    return *(volatile char*)MEMIO_GETC;
+}
+#else
+int _putchar(char ch) {
+    return _write(STDOUT_FILENO, &ch, 1);
+}
+
+int _getchar(void) {
+    char c = 0;
+    _read(STDIN_FILENO, &c, 1);
+
+    return (int)c;
 }
 #endif
 
@@ -201,25 +223,3 @@ int _getpid(void)
 {
     return 0;
 }
-
-#if !HAVE_SYSCALL && !HAVE_TOHOST
-int _putchar(char ch) {
-    *(volatile char*)MEMIO_PUTC = (char)ch;
-    return 0;
-}
-
-int _getchar(void) {
-    return *(volatile char*)MEMIO_GETC;
-}
-#else
-int _putchar(char ch) {
-    return _write(STDOUT_FILENO, &ch, 1);
-}
-
-int _getchar(void) {
-    char c = 0;
-    _read(STDIN_FILENO, &c, 1);
-
-    return (int)c;
-}
-#endif
