@@ -7,14 +7,16 @@ fi
 
 mkdir -p $BASEDIR/riscv-tests/common
 
-cp -r $BASEDIR/$BENCHMARK/riscv-tests/benchmarks/dhrystone $BASEDIR/riscv-tests/
 cp -r $BASEDIR/$BENCHMARK/riscv-tests/benchmarks/median $BASEDIR/riscv-tests/
-cp -r $BASEDIR/$BENCHMARK/riscv-tests/benchmarks/memcpy $BASEDIR/riscv-tests/
-cp -r $BASEDIR/$BENCHMARK/riscv-tests/benchmarks/multiply $BASEDIR/riscv-tests/
 cp -r $BASEDIR/$BENCHMARK/riscv-tests/benchmarks/qsort $BASEDIR/riscv-tests/
 cp -r $BASEDIR/$BENCHMARK/riscv-tests/benchmarks/rsort $BASEDIR/riscv-tests/
-cp -r $BASEDIR/$BENCHMARK/riscv-tests/benchmarks/spmv $BASEDIR/riscv-tests/
 cp -r $BASEDIR/$BENCHMARK/riscv-tests/benchmarks/towers $BASEDIR/riscv-tests/
+cp -r $BASEDIR/$BENCHMARK/riscv-tests/benchmarks/vvadd $BASEDIR/riscv-tests/
+cp -r $BASEDIR/$BENCHMARK/riscv-tests/benchmarks/memcpy $BASEDIR/riscv-tests/
+cp -r $BASEDIR/$BENCHMARK/riscv-tests/benchmarks/multiply $BASEDIR/riscv-tests/
+cp -r $BASEDIR/$BENCHMARK/riscv-tests/benchmarks/dhrystone $BASEDIR/riscv-tests/
+cp -r $BASEDIR/$BENCHMARK/riscv-tests/benchmarks/spmv $BASEDIR/riscv-tests/
+cp -r $BASEDIR/$BENCHMARK/riscv-tests/benchmarks/pmp $BASEDIR/riscv-tests/
 cp -r $BASEDIR/$BENCHMARK/riscv-tests/benchmarks/Makefile $BASEDIR/riscv-tests/
 
 cp $BASEDIR/ld/startup.S $BASEDIR/riscv-tests/common/

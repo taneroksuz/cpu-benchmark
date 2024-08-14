@@ -10,17 +10,9 @@ bmarks = \
 	vvadd \
 	memcpy \
 	multiply \
-	mm \
 	dhrystone \
 	spmv \
-	mt-vvadd \
-	mt-matmul \
-	mt-memcpy \
 	pmp \
-	vec-memcpy \
-	vec-daxpy \
-	vec-sgemm \
-	vec-strcmp \
 
 RISCV_GCC ?= $(RISCV)/bin/riscv32-unknown-elf-gcc
 RISCV_GCC_OPTS ?= -O3 -fno-common -funroll-loops -finline-functions -falign-functions=16 -falign-jumps=4 -falign-loops=4 -finline-limit=1000 -fno-if-conversion2 -fselective-scheduling -fno-tree-dominator-opts -fno-tree-loop-distribute-patterns -Wno-implicit
