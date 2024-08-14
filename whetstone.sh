@@ -14,7 +14,6 @@ cp $BASEDIR/ld/linker.ld $BASEDIR/whetstone/common/
 
 cp $BASEDIR/$BENCHMARK/common/util.h $BASEDIR/whetstone/common/
 cp $BASEDIR/$BENCHMARK/common/encoding.h $BASEDIR/whetstone/common/
-cp $BASEDIR/$BENCHMARK/common/strcmp.S $BASEDIR/whetstone/common/
 cp $BASEDIR/$BENCHMARK/common/syscalls.c $BASEDIR/whetstone/common/
 
 cp $BASEDIR/$BENCHMARK/mak/whetstone.mak $BASEDIR/whetstone/Makefile

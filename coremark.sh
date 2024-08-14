@@ -14,7 +14,6 @@ cp $BASEDIR/ld/linker.ld $BASEDIR/coremark/common/
 
 cp $BASEDIR/$BENCHMARK/common/util.h $BASEDIR/coremark/common/
 cp $BASEDIR/$BENCHMARK/common/encoding.h $BASEDIR/coremark/common/
-cp $BASEDIR/$BENCHMARK/common/strcmp.S $BASEDIR/coremark/common/
 cp $BASEDIR/$BENCHMARK/common/syscalls.c $BASEDIR/coremark/common/
 cp $BASEDIR/$BENCHMARK/common/ee_printf.c $BASEDIR/coremark/common/
 cp $BASEDIR/$BENCHMARK/common/core_portme.c $BASEDIR/coremark/common/

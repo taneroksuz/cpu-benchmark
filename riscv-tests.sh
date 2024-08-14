@@ -22,7 +22,6 @@ cp $BASEDIR/ld/linker.ld $BASEDIR/riscv-tests/common/
 
 cp $BASEDIR/$BENCHMARK/common/util.h $BASEDIR/riscv-tests/common/
 cp $BASEDIR/$BENCHMARK/common/encoding.h $BASEDIR/riscv-tests/common/
-cp $BASEDIR/$BENCHMARK/common/strcmp.S $BASEDIR/riscv-tests/common/
 cp $BASEDIR/$BENCHMARK/common/syscalls.c $BASEDIR/riscv-tests/common/
 
 cp $BASEDIR/$BENCHMARK/mak/riscv-tests.mak $BASEDIR/riscv-tests/Makefile
