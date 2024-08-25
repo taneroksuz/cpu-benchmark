@@ -41,7 +41,7 @@ mkdir -p $BASEDIR/dump
 for file in $BASEDIR/isa/*.dump; do
   directory="$(dirname $file)"
   filename="$(basename $file .dump)"
-  cp $directory/$filename.dump $BASEDIR/riscv/$filename.riscv
+  cp $directory/$filename $BASEDIR/riscv/$filename.riscv
 done
 
 cp $BASEDIR/isa/*.dump $BASEDIR/dump/
