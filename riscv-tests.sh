@@ -28,6 +28,11 @@ cp $BASEDIR/$BENCHMARK/common/syscalls.c $BASEDIR/riscv-tests/common/
 
 cp $BASEDIR/$BENCHMARK/mak/riscv-tests.mak $BASEDIR/riscv-tests/Makefile
 
+if [[ $ARCH = *"zba_zbb_zbc_zbs"* ]]; then
+  cp $BASEDIR/$BENCHMARK/common/strcmp.S $BASEDIR/riscv-tests/common/
+  cp $BASEDIR/$BENCHMARK/common/strlen.S $BASEDIR/riscv-tests/common/
+fi
+
 cd $BASEDIR/riscv-tests
 
 make
