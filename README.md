@@ -1,1 +1,1 @@
-# wolv-benchmark
+# cpu-benchmark
