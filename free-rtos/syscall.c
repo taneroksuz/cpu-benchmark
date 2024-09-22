@@ -8,7 +8,7 @@
 #define HAVE_TOHOST         0
 
 #define MEMIO_PUTC          0x01000000
-#define MEMIO_GETC          0x01000000
+#define MEMIO_GETC          0x01000004
 #define MEMIO_EXIT          0x90000000
 #define MEMIO_TOHOST        0x90000000
 
