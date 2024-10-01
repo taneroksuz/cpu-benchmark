@@ -643,8 +643,12 @@ void pout(char title[18], float ops, int type, SPDP checknum, SPDP time, int cal
 SPDP dtime(void)
 {
     SPDP q;
-    asm __volatile__ ("csrr %[dst01], mcycle\n" : [dst01]"=r"(q) : : );
-    q *= 1.0e-06;
+    unsigned int mcycle;
+    unsigned int mcycleh;
+    asm __volatile__ ("csrr %[dst01], mcycle\n" : [dst01]"=r"(mcycle) : : );
+    asm __volatile__ ("csrr %[dst01], mcycleh\n" : [dst01]"=r"(mcycleh) : : );
+    q = mcycle*4.0e-08;
+    q += mcycleh*1.7179869184e+2;
     return q;
 }
 
