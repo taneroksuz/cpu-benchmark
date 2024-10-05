@@ -42,10 +42,10 @@ Original Author: Shay Gal-on
 	e.g. Read value from on board RTC, read value from cpu clock cycles performance counter etc.
 	Sample implementation for standard time.h and windows.h definitions included.
 */
-CORETIMETYPE barebones_clock() {
-  ee_u32 cycles;
-  asm __volatile__ ("csrr %[dst01], mcycle\n" : [dst01]"=r"(cycles) : : );
-  return cycles;
+CORETIMETYPE barebones_time() {
+  ee_u32 times;
+  asm volatile("lw %0, 0(%1)" : "=r" (times) : "r" (0x200BFF8));
+  return times;
 }
 /* Define : TIMER_RES_DIVIDER
 	Divider to trade off timer resolution and total time that can be measured.
@@ -53,7 +53,7 @@ CORETIMETYPE barebones_clock() {
 	Use lower values to increase resolution, but make sure that overflow does not occur.
 	If there are issues with the return value overflowing, increase this value.
 	*/
-#define GETMYTIME(_t) (*_t=barebones_clock())
+#define GETMYTIME(_t) (*_t=barebones_time())
 #define MYTIMEDIFF(fin,ini) ((fin)-(ini))
 #define TIMER_RES_DIVIDER 1
 #define SAMPLE_TIME_IMPLEMENTATION 1
