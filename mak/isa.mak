@@ -2,6 +2,15 @@ default: all
 
 ROOTDIR := .
 
+ifeq ($(ARCH),rv32i_zicsr_zifencei)
+include $(ROOTDIR)/rv32ui/Makefrag
+include $(ROOTDIR)/rv32mi/Makefrag
+endif
+ifeq ($(ARCH),rv32im_zicsr_zifencei)
+include $(ROOTDIR)/rv32ui/Makefrag
+include $(ROOTDIR)/rv32um/Makefrag
+include $(ROOTDIR)/rv32mi/Makefrag
+endif
 ifeq ($(ARCH),rv32imc_zicsr_zifencei)
 include $(ROOTDIR)/rv32ui/Makefrag
 include $(ROOTDIR)/rv32um/Makefrag
@@ -61,6 +70,15 @@ endif
 
 endef
 
+ifeq ($(ARCH),rv32i_zicsr_zifencei)
+$(eval $(call compile_template,rv32ui,-march=rv32i_zicsr_zifencei -mabi=ilp32))
+$(eval $(call compile_template,rv32mi,-march=rv32i_zicsr_zifencei -mabi=ilp32))
+endif
+ifeq ($(ARCH),rv32im_zicsr_zifencei)
+$(eval $(call compile_template,rv32ui,-march=rv32im_zicsr_zifencei -mabi=ilp32))
+$(eval $(call compile_template,rv32um,-march=rv32im_zicsr_zifencei -mabi=ilp32))
+$(eval $(call compile_template,rv32mi,-march=rv32im_zicsr_zifencei -mabi=ilp32))
+endif
 ifeq ($(ARCH),rv32imc_zicsr_zifencei)
 $(eval $(call compile_template,rv32ui,-march=rv32imc_zicsr_zifencei -mabi=ilp32))
 $(eval $(call compile_template,rv32uc,-march=rv32imc_zicsr_zifencei -mabi=ilp32))
