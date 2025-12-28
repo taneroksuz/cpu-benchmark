@@ -6,7 +6,7 @@ RISCV_GCC ?= $(RISCV)/bin/riscv32-unknown-elf-gcc
 RISCV_GCC_OPTS ?= -O0
 RISCV_LINK_OPTS ?= -static -nostartfiles -lm -lgcc -T $(ROOTDIR)/rom.ld
 RISCV_OBJDUMP ?= $(RISCV)/bin/riscv32-unknown-elf-objdump --disassemble-all --disassemble-zeroes --section=.text --section=.text.startup --section=.text.init --section=.data
-RISCV_OBJCOPY ?= $(RISCV)/bin/riscv32-unknown-elf-objcopy -O ihex
+RISCV_OBJCOPY ?= $(RISCV)/bin/riscv32-unknown-elf-objcopy -O binary
 
 INCS += -I$(ROOTDIR)
 
@@ -18,9 +18,12 @@ rom.riscv: $(wildcard $(ROOTDIR)/*)
 rom.riscv.dump: %.riscv.dump: %.riscv
 	$(RISCV_OBJDUMP) $< > $@
 
-JUNK += rom.riscv rom.riscv.dump
+rom.bin: %.bin: %.riscv
+	$(RISCV_OBJCOPY) $< $@
 
-all: rom.riscv.dump
+JUNK += rom.riscv rom.riscv.dump rom.bin
+
+all: rom.riscv.dump rom.bin
 
 clean:
 	rm -rf $(JUNK)

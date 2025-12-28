@@ -20,8 +20,10 @@ make
 
 mkdir -p $BASEDIR/riscv
 mkdir -p $BASEDIR/dump
+mkdir -p $BASEDIR/bin
 
 cp $BASEDIR/rom/*.riscv $BASEDIR/riscv/
 cp $BASEDIR/rom/*.dump $BASEDIR/dump/
+cp $BASEDIR/rom/*.bin $BASEDIR/bin/
 
 rm -rf $BASEDIR/rom
