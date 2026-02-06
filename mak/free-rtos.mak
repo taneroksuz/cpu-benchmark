@@ -13,7 +13,7 @@ OBJCOPY             = $(RISCV_PREFIX)objcopy
 READELF             = $(RISCV_PREFIX)readelf
 
 RISCV_GCC_OPTS      = -mcmodel=medany -nostartfiles -nostdlib -Wno-maybe-uninitialized -Wno-address
-RISCV_OBJDUMP_OPTS  = --disassemble-all --disassemble-zeroes --section=.text --section=.text.startup --section=.text.init --section=.data
+RISCV_OBJDUMP_OPTS  = --disassemble-all --disassemble-zeroes
 
 FREERTOS_SRC = \
     $(FREERTOS_SOURCE_DIR)/croutine.c \
