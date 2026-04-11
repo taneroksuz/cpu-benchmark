@@ -5,7 +5,7 @@ ROOTDIR = .
 RISCV_GCC ?= $(RISCV)/bin/riscv32-unknown-elf-gcc
 RISCV_GCC_OPTS ?= -O0
 RISCV_LINK_OPTS ?= -static -nostartfiles -lm -lgcc -T $(ROOTDIR)/rom.ld
-RISCV_OBJDUMP ?= $(RISCV)/bin/riscv32-unknown-elf-objdump --disassemble-all --disassemble-zeroes
+RISCV_OBJDUMP ?= $(RISCV)/bin/riscv32-unknown-elf-objdump -M numeric --disassemble-all --disassemble-zeroes
 RISCV_OBJCOPY ?= $(RISCV)/bin/riscv32-unknown-elf-objcopy -O binary
 
 INCS += -I$(ROOTDIR)
