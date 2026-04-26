@@ -25,8 +25,15 @@ cp $BASEDIR/ld/linker.ld $BASEDIR/riscv-tests/common/
 cp $BASEDIR/$BENCHMARK/common/util.h $BASEDIR/riscv-tests/common/
 cp $BASEDIR/$BENCHMARK/common/encoding.h $BASEDIR/riscv-tests/common/
 cp $BASEDIR/$BENCHMARK/common/syscalls.c $BASEDIR/riscv-tests/common/
+cp $BASEDIR/$BENCHMARK/common/printf.h $BASEDIR/riscv-tests/common/
+cp $BASEDIR/$BENCHMARK/common/printf.c $BASEDIR/riscv-tests/common/
 
 cp $BASEDIR/$BENCHMARK/mak/riscv-tests.mak $BASEDIR/riscv-tests/Makefile
+
+find "$BASEDIR/riscv-tests" -type f \( -name "*.c" -o -name "*.h" \) -print0 | \
+while IFS= read -r -d '' file; do
+  sed -i 's|#include <stdio.h>|#include "printf.h"|g' "$file"
+done
 
 cd $BASEDIR/riscv-tests
 
