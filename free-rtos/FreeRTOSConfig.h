@@ -4,7 +4,7 @@
 #define configUSE_PREEMPTION        1
 #define configUSE_IDLE_HOOK         1
 #define configUSE_TICK_HOOK         1
-#define configCPU_CLOCK_HZ          ( ( unsigned long ) 100*1000*1000 ) /* Clock setup from main.c in the demo application. */
+#define configCPU_CLOCK_HZ          ( ( unsigned long ) 1*1000*1000 )
 #define configTICK_RATE_HZ          ( ( TickType_t ) 1000 )
 #define configMAX_PRIORITIES        ( 16 )
 #define configMINIMAL_STACK_SIZE    ( ( unsigned short ) 1024 )
@@ -44,7 +44,7 @@ to exclude the API function. */
 #define INCLUDE_uxTaskGetStackHighWaterMark 1
 
 /* RISC-V mtime address */
-#define configMTIME_BASE_ADDRESS        ( 0x2000BFF8UL )
-#define configMTIMECMP_BASE_ADDRESS     ( 0x20004000UL )
+#define configMTIME_BASE_ADDRESS        ( 0x0200BFF8UL )
+#define configMTIMECMP_BASE_ADDRESS     ( 0x02004000UL )
 
 #endif
