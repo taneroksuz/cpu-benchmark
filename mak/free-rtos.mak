@@ -2,7 +2,7 @@ default: all
 
 ROOTDIR             = .
 
-RISCV_PREFIX        = $(RISCV)/bin/riscv32-unknown-elf-
+RISCV_PREFIX        = $(RISCV)
 FREERTOS_SOURCE_DIR = $(ROOTDIR)/free-rtos-kernel
 FREERTOS_POSIX_DIR  = $(ROOTDIR)/free-rtos-posix
 
@@ -12,7 +12,7 @@ OBJDUMP             = $(RISCV_PREFIX)objdump
 OBJCOPY             = $(RISCV_PREFIX)objcopy
 READELF             = $(RISCV_PREFIX)readelf
 
-RISCV_GCC_OPTS      = -mcmodel=medany -nostartfiles -nostdlib -Wno-maybe-uninitialized -Wno-address
+RISCV_GCC_OPTS      = -march=$(ARCH) -mabi=$(ABI) -mcmodel=medany -nostartfiles -nostdlib -Wno-maybe-uninitialized -Wno-address
 RISCV_OBJDUMP_OPTS  = -M numeric --disassemble-all --disassemble-zeroes
 
 FREERTOS_SRC = \

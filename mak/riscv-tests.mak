@@ -14,10 +14,10 @@ bmarks = \
 	spmv \
 	pmp \
 
-RISCV_GCC ?= $(RISCV)/bin/riscv32-unknown-elf-gcc -std=gnu99
-RISCV_GCC_OPTS ?= -O2 -fno-common -funroll-loops -finline-functions -funroll-all-loops -falign-functions=8 -falign-jumps=8 -falign-loops=8 -finline-limit=1000 -mtune=sifive-7-series -ffast-math -fno-tree-loop-distribute-patterns --param fsm-scale-path-stmts=3 -Wno-implicit
+RISCV_GCC ?= $(RISCV)gcc -std=gnu99
+RISCV_GCC_OPTS ?= -march=$(ARCH) -mabi=$(ABI) -O2 -fno-common -funroll-loops -finline-functions -funroll-all-loops -falign-functions=8 -falign-jumps=8 -falign-loops=8 -finline-limit=1000 -mtune=sifive-7-series -ffast-math -fno-tree-loop-distribute-patterns --param fsm-scale-path-stmts=3 -Wno-implicit
 RISCV_LINK_OPTS ?= -static -nostartfiles -lm -lgcc -T $(ROOTDIR)/common/linker.ld
-RISCV_OBJDUMP ?= $(RISCV)/bin/riscv32-unknown-elf-objdump -M numeric --disassemble-all --disassemble-zeroes
+RISCV_OBJDUMP ?= $(RISCV)objdump -M numeric --disassemble-all --disassemble-zeroes
 
 INCS += -I$(ROOTDIR)/../env -I$(ROOTDIR)/common $(addprefix -I$(ROOTDIR)/, $(bmarks))
 
